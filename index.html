@@ -11,6 +11,25 @@
 </head>
 <body>
 
+    <!-- 닉네임 설정 팝업 -->
+    <div id="nickname-popup" class="popup" style="display:none;">
+        <div class="popup-content">
+            <h2>Enter your nickname:</h2>
+            <input type="text" id="nickname-input" placeholder="Your nickname">
+            <button onclick="saveNickname()">Submit</button>
+        </div>
+    </div>
+
+<!-- 닉네임 수정 팝업 -->
+<div id="settings-popup" class="popup" style="display:none;">
+  <div class="popup-content">
+      <h2>Edit your nickname:</h2>
+      <input type="text" id="settings-nickname-input" placeholder="Your nickname">
+      <button id="save-settings-button">Save</button> <!-- Save 버튼에 id 추가 -->
+      <button id="close-settings-button">Close</button> <!-- Close 버튼에 id 추가 -->
+  </div>
+</div>
+
     <div id="quiz-container">
         <h1>Movie Quiz</h1>
 
@@ -23,62 +42,44 @@
         </select>
 
         <!-- All-Time 최고 연속 정답 수 표시 영역 -->
-        <div id="stats">
+        <div id="all-time-stats">
             <p id="all-time-highest-score">All-Time Highest Streak: 0</p>
+        </div>
+
+        <!-- 현재 최고 연속 정답 수 표시 영역 -->
+        <div id="stats">
             <p id="highest-score">Highest Streak: 0</p>
         </div>
 
         <div id="question-container">
             <p id="question">Your question will appear here</p>
-            <input type="text" id="answer-input" placeholder="Enter your answer" />
-            <button id="submit-answer-button" onclick="checkAnswer()">Submit Answer</button> <!-- id 추가 -->
+            <input type="text" id="answer-input" placeholder="Enter your answer">
+            <button onclick="checkAnswer()">Submit Answer</button>
         </div>
 
         <div id="feedback"></div>
 
+        <!-- Hint 버튼 -->
         <button onclick="showHint()">Hint</button>
         <p id="hint" style="display:none;">Hint will be shown here</p>
 
+        <!-- Show Answer 버튼을 힌트 본문 아래에 위치시키고 기본적으로 숨김 -->
         <button id="show-answer-btn" onclick="showAnswer()" style="display:none;">Show Answer</button>
         <p id="correct-answer" style="display:none;">The correct answer will be shown here</p>
 
         <!-- Setting 버튼 추가 -->
-        <button onclick="openSettings()">Setting</button>
+        <button onclick="openSettings()">Settings</button>
+
+        <!-- Close App 버튼 -->
         <button onclick="closeApp()">Close App</button>
 
+        <!-- 새로고침 애니메이션 영역 -->
         <div id="refresh-indicator" style="display:none;">
             <p>Refreshing...</p>
         </div>
     </div>
 
-    <!-- 닉네임 설정 팝업 -->
-    <div id="nickname-popup" class="popup" style="display:none;">
-        <div class="popup-content">
-            <h2>Enter your nickname:</h2>
-            <input type="text" id="nickname-input" placeholder="Your nickname">
-            <button onclick="saveNickname()">Save</button>
-        </div>
-    </div>
-
-    <!-- 설정 팝업 -->
-    <div id="settings-popup" class="popup" style="display:none;">
-        <div class="popup-content">
-            <h2 id="settings-title">Change your nickname:</h2>
-            <input type="text" id="settings-nickname-input" placeholder="Your new nickname">
-            <div id="settings-buttons">
-                <button id="save-settings-button">Save</button>
-                <button id="close-settings-button">Close</button>
-                <button id="reset-button">초기화</button>
-            </div>
-            <!-- 초기화 확인 메시지 -->
-            <div id="reset-confirmation" style="display:none;">
-                <p style="color:red;">정말 초기화 하겠습니까?</p>
-                <button id="confirm-reset-button">네</button>
-                <button id="cancel-reset-button">아니오</button>
-            </div>
-        </div>
-    </div>
-
     <script src="js/app.js"></script>
+
 </body>
 </html>
