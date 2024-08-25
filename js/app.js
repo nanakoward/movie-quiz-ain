@@ -1,3 +1,4 @@
+let originalQuestions = []; // 초기 질문 데이터를 저장하는 배열
 let questions = []; // JSON 데이터를 로드하여 저장할 변수
 let currentQuestion = null;
 let highestScores = {}; // 카테고리별 현재 최고 점수 저장 객체
@@ -64,7 +65,6 @@ function closeSettings() {
     document.getElementById('settings-popup').style.display = 'none';
 }
 
-
 function openSettings() {
     document.getElementById('settings-nickname-input').value = nickname; // 현재 닉네임을 입력 필드에 표시
     document.getElementById('settings-popup').style.display = 'block';
@@ -74,7 +74,8 @@ function openSettings() {
 fetch('questions.json')
     .then(response => response.json())
     .then(data => {
-        questions = data;
+        originalQuestions = data; // 처음 로드된 질문 데이터를 저장
+        resetQuestions(); // 질문 리스트를 초기화
         highestScores = getHighestScores();
         allTimeHighestScores = getAllTimeHighestScores();
         nickname = getNickname();
@@ -83,12 +84,16 @@ fetch('questions.json')
             document.getElementById('nickname-popup').style.display = 'block';
         }
 
-        shuffleQuestions(); // 문제를 랜덤하게 섞음
         getRandomQuestion(); // 첫 질문을 출력
     })
     .catch(error => {
         console.error("Error loading questions:", error);
     });
+
+function resetQuestions() {
+    questions = [...originalQuestions]; // 원래 질문 배열을 복사하여 다시 셋팅
+    shuffleQuestions(); // 질문을 랜덤하게 섞음
+}
 
 function shuffleQuestions() {
     for (let i = questions.length - 1; i > 0; i--) {
@@ -136,9 +141,11 @@ function checkAnswer() {
         document.getElementById("feedback").innerText = `${nickname}, 까비..`;
         document.getElementById("feedback").className = "incorrect";
         resetStreak(); // 연속 정답 수 초기화
+        resetQuestions(); // 질문 리스트를 다시 초기화
         setTimeout(() => {
             document.getElementById("feedback").innerText = "";
             document.getElementById("feedback").className = "";
+            getRandomQuestion(); // 처음 질문으로 다시 시작
         }, 1000);
     }
 
@@ -187,7 +194,7 @@ function showAnswer() {
 function selectCategory() {
     selectedCategory = document.getElementById('category').value;
     updateHighestScoreDisplay(); // 선택한 카테고리에 따라 최고 점수를 업데이트
-    shuffleQuestions(); // 선택한 카테고리에 맞게 질문을 섞음
+    resetQuestions(); // 선택한 카테고리에 맞게 질문 리스트를 초기화
     getRandomQuestion(); // 첫 질문을 출력
 }
 
@@ -244,4 +251,3 @@ updateHighestScoreDisplay();
 function closeApp() {
     alert("To close the app, use your device's navigation buttons.");
 }
-
