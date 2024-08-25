@@ -116,7 +116,7 @@ fetch('questions.json')
 .then(response => response.json())
 .then(data => {
     originalQuestions = data.map(question => {
-        question.answer = normalizeString(question.answer); // 정답을 소문자와 띄어쓰기 없는 상태로 정규화
+        question.answer = normalizeString(question.answer); // 정답을 정규화하여 저장
         return question;
     });
     resetQuestions();
@@ -171,7 +171,7 @@ function getRandomQuestion() {
 function checkAnswer() {
     const answerInput = document.getElementById("answer-input");
     const userAnswer = normalizeString(answerInput.value);  // 입력된 답변을 정규화
-    const correctAnswer = getNormalizedAnswer(currentQuestion.answer);  // 정답을 정규화
+    const correctAnswer = normalizeString(currentQuestion.answer);  // 정답을 정규화
 
     if (showAnswerUsed) {
         resetStreak();
