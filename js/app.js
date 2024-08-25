@@ -39,28 +39,12 @@ function getRandomQuestion() {
     document.getElementById("correct-answer").style.display = 'none';
     document.getElementById("answer-input").value = '';
     document.getElementById("feedback").innerText = '';
+    document.getElementById("answer-input").focus(); // 정답 입력칸에 커서가 가도록 함
 }
 
-// function checkAnswer() {
-//     const userAnswer = document.getElementById("answer-input").value.trim().toLowerCase();
-//     const correctAnswer = currentQuestion.answer.toLowerCase();
-
-//     totalQuestions++;
-//     if (userAnswer === correctAnswer) {
-//         correctCount++;
-//         document.getElementById("feedback").innerText = "Correct!";
-//         document.getElementById("feedback").className = "correct";
-//         setTimeout(() => getRandomQuestion(), 1000); // 1초 후 다음 질문으로 넘어갑니다.
-//     } else {
-//         document.getElementById("feedback").innerText = "Incorrect, try again!";
-//         document.getElementById("feedback").className = "incorrect";
-//     }
-
-//     updateStats();
-// }
-
 function checkAnswer() {
-    const userAnswer = document.getElementById("answer-input").value.trim().toLowerCase();
+    const answerInput = document.getElementById("answer-input");
+    const userAnswer = answerInput.value.trim().toLowerCase();
     const correctAnswer = currentQuestion.answer.toLowerCase();
 
     totalQuestions++;
@@ -82,9 +66,10 @@ function checkAnswer() {
         }, 1000); // 1초 동안 메시지가 표시된 후 사라지게 합니다.
     }
 
+    answerInput.value = ''; // 틀렸을 경우 입력된 텍스트 삭제
+    answerInput.focus(); // 입력칸에 커서가 가도록 함
     updateStats();
 }
-
 
 function updateStats() {
     const accuracy = totalQuestions > 0 ? (correctCount / totalQuestions) * 100 : 0;
@@ -103,3 +88,11 @@ function showAnswer() {
     document.getElementById("correct-answer").innerText = currentQuestion.answer;
     document.getElementById("correct-answer").style.display = 'block';
 }
+
+// Enter 키를 눌렀을 때 checkAnswer 함수가 호출되도록 이벤트 추가
+document.getElementById("answer-input").addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+        event.preventDefault(); // 기본 Enter 키 동작 방지 (폼 제출 방지)
+        checkAnswer(); // 정답 확인 함수 호출
+    }
+});
