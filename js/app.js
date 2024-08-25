@@ -456,11 +456,14 @@ highestScores = getHighestScores();
 allTimeHighestScores = getAllTimeHighestScores();
 nickname = getNickname();
 
+// 연속 정답 수를 초기화하는 함수
 function resetStreak() {
     currentStreak[selectedCategory] = 0; // 현재 선택된 카테고리의 연속 정답 수 초기화
-    highestScores[selectedCategory] = 0; 
-    updateHighestScoreDisplay(); 
+    highestScores[selectedCategory] = 0;
+    saveHighestScores(highestScores); // 초기화된 값 저장
+    updateHighestScoreDisplay();
 }
+
 
 function updateHighestScoreDisplay() {
     document.getElementById("all-time-highest-score").innerText = `All-Time ${selectedCategory} Highest Streak: ${allTimeHighestScores[selectedCategory] || 0}`;
