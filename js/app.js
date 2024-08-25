@@ -5,8 +5,9 @@ let allTimeHighestScores = {}; // 카테고리별 가장 높았던 최고 점수
 let currentStreak = 0; // 현재 연속 정답 수
 let showAnswerUsed = false; // Show Answer 버튼 사용 여부
 let selectedCategory = 'all'; // 기본 선택 카테고리
+let nickname = ''; // 사용자 닉네임
 
-// 로컬 저장소에서 현재 최고 점수와 모든 시간의 최고 점수 가져오기
+// 로컬 저장소에서 현재 최고 점수와 모든 시간의 최고 점수, 닉네임 가져오기
 function getHighestScores() {
     return JSON.parse(localStorage.getItem('highestScores')) || {};
 }
@@ -15,13 +16,34 @@ function getAllTimeHighestScores() {
     return JSON.parse(localStorage.getItem('allTimeHighestScores')) || {};
 }
 
-// 로컬 저장소에 현재 최고 점수와 모든 시간의 최고 점수 저장하기
+function getNickname() {
+    return localStorage.getItem('nickname') || '';
+}
+
+// 로컬 저장소에 현재 최고 점수와 모든 시간의 최고 점수, 닉네임 저장하기
 function saveHighestScores(scores) {
     localStorage.setItem('highestScores', JSON.stringify(scores));
 }
 
 function saveAllTimeHighestScores(scores) {
     localStorage.setItem('allTimeHighestScores', JSON.stringify(scores));
+}
+
+function saveNickname() {
+    nickname = document.getElementById('nickname-input').value.trim();
+    if (nickname) {
+        localStorage.setItem('nickname', nickname);
+        document.getElementById('nickname-popup').style.display = 'none';
+        showMotivationMessage();
+    }
+}
+
+function showMotivationMessage() {
+    const popupContent = document.querySelector('.popup-content');
+    popupContent.innerHTML = "<h2>오늘도 화이팅!</h2>";
+    setTimeout(() => {
+        document.getElementById('nickname-popup').style.display = 'none';
+    }, 2000);
 }
 
 // JSON 파일에서 데이터를 가져와서 초기화합니다.
@@ -31,6 +53,12 @@ fetch('questions.json')
         questions = data;
         highestScores = getHighestScores();
         allTimeHighestScores = getAllTimeHighestScores();
+        nickname = getNickname();
+
+        if (!nickname) {
+            document.getElementById('nickname-popup').style.display = 'block';
+        }
+
         shuffleQuestions(); // 문제를 랜덤하게 섞음
         getRandomQuestion(); // 첫 질문을 출력
     })
@@ -73,7 +101,7 @@ function checkAnswer() {
 
     if (userAnswer === correctAnswer) {
         currentStreak++;
-        document.getElementById("feedback").innerText = "Correct!";
+        document.getElementById("feedback").innerText = `${nickname}, 정답!`;
         document.getElementById("feedback").className = "correct";
         setTimeout(() => {
             document.getElementById("feedback").innerText = "";
@@ -81,7 +109,7 @@ function checkAnswer() {
             getRandomQuestion(); // 다음 질문으로 넘어갑니다.
         }, 1000);
     } else {
-        document.getElementById("feedback").innerText = "Incorrect!";
+        document.getElementById("feedback").innerText = `${nickname}, 까비..`;
         document.getElementById("feedback").className = "incorrect";
         resetStreak(); // 연속 정답 수 초기화
         setTimeout(() => {
@@ -139,6 +167,10 @@ function selectCategory() {
     getRandomQuestion(); // 첫 질문을 출력
 }
 
+function openSettings() {
+    document.getElementById('nickname-popup').style.display = 'block';
+}
+
 // Enter 키를 눌렀을 때 checkAnswer 함수가 호출되도록 이벤트 추가
 document.getElementById("answer-input").addEventListener("keydown", function(event) {
     if (event.key === "Enter" || event.key === "Return") {
@@ -150,6 +182,7 @@ document.getElementById("answer-input").addEventListener("keydown", function(eve
 // 최고 점수를 로드하여 표시
 highestScores = getHighestScores();
 allTimeHighestScores = getAllTimeHighestScores();
+nickname = getNickname();
 updateHighestScoreDisplay();
 
 // "앱 닫기" 버튼 기능 구현
