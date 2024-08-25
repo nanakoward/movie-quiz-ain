@@ -219,11 +219,6 @@ function getRandomQuestion() {
     document.getElementById("correct-answer").style.display = 'none';
     document.getElementById("answer-input").value = '';
     
-    // 피드백 초기화
-    // const feedbackElement = document.getElementById("feedback");
-    // feedbackElement.innerText = '';
-    // feedbackElement.className = ''; // 클래스 초기화
-    
     const imageElement = document.getElementById("question-image");
     if (currentQuestion.image_url) {
         console.log("Image URL:", currentQuestion.image_url); // URL 확인을 위해 콘솔에 출력
@@ -282,10 +277,10 @@ setTimeout(() => {
     getRandomQuestion();
 }, 1000);
 } else {
-// 오답 처리
-// const feedbackMessage = showAnswerClicked ? '다시 도전!!!!' : `${nickname}, 까비..`;
-// document.getElementById("feedback").innerText = feedbackMessage;
-// document.getElementById("feedback").className = "incorrect";
+//오답 처리
+
+document.getElementById("feedback").innerText = `${nickname}, 까비..`;
+document.getElementById("feedback").className = "incorrect";
 
 resetStreak(); // 연속 정답 수 초기화
 resetQuestions();
@@ -348,12 +343,6 @@ function selectCategory() {
     }
 }
 
-// 나머지 코드 유지
-
-// Master 메시지를 표시하는 함수
-// function displayMasterMessage() {
-//     document.getElementById("question").innerText = `당신은 ${selectedCategory}의 마스터 짱짱맨 짱짱걸 당신은 미쳤어!`;
-// }
 
 // 버튼 비활성화 및 스타일 변경 함수
 function disableAnswerButton() {
@@ -376,29 +365,7 @@ function disableAnswerInputs() {
     answerInput.value = `당신은 ${selectedCategory}의 마스터 짱짱맨 짱짱걸 당신은 미쳤어!`;
 }
 
-// function getRandomQuestion() {
-//     if (questions.length === 0) {
-//         document.getElementById("question").innerText = `당신은 ${selectedCategory}의 마스터 짱짱맨 짱짱걸 당신은 미쳤어!`;
-//         return;
-//     }
-    
-//     currentQuestion = questions.pop(); 
-    
-//     document.getElementById("question").innerText = currentQuestion.question;
-//     document.getElementById("hint").style.display = 'none';
-//     document.getElementById("correct-answer").style.display = 'none';
-//     document.getElementById("answer-input").value = '';
-//     document.getElementById("feedback").innerText = '';
-//     document.getElementById("answer-input").focus(); 
-//     showAnswerClicked = false; // 새로운 질문으로 넘어갈 때 Show Answer 상태를 초기화
-// }
 
-
-// function resetStreak() {
-//     currentStreak = 0;
-//     highestScores[selectedCategory] = 0; 
-//     updateHighestScoreDisplay(); 
-// }
 
 function updateAllTimeHighestScores(category, score) {
     if (score > (allTimeHighestScores[category] || 0)) {
