@@ -205,12 +205,13 @@ function shuffleQuestions() {
 //     document.getElementById("answer-input").focus(); 
 //     showAnswerUsed = false; 
 // }
-function resetfeedback() {
-        // 피드백 초기화
-        const feedbackElement = document.getElementById("feedback");
-        feedbackElement.innerText = '';
-        feedbackElement.className = ''; // 클래스 초기화
-    }
+function resetFeedback() {
+    // 피드백 초기화
+    const feedbackElement = document.getElementById("feedback");
+    feedbackElement.innerText = '';        // 피드백 텍스트 초기화
+    feedbackElement.className = '';        // 클래스 초기화
+}
+
 
 function getRandomQuestion() {
     if (questions.length === 0) {
@@ -345,7 +346,7 @@ function selectCategory() {
     } else {
         enableAnswerInputs(); // 질문 개수보다 작은 경우 활성화
         getRandomQuestion();
-        resetfeedback();
+        resetFeedback();
     }
 }
 
