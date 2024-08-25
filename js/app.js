@@ -352,11 +352,11 @@ function getRandomQuestion() {
 }
 
 
-function resetStreak() {
-    currentStreak = 0;
-    highestScores[selectedCategory] = 0; 
-    updateHighestScoreDisplay(); 
-}
+// function resetStreak() {
+//     currentStreak = 0;
+//     highestScores[selectedCategory] = 0; 
+//     updateHighestScoreDisplay(); 
+// }
 
 function updateAllTimeHighestScores(category, score) {
     if (score > (allTimeHighestScores[category] || 0)) {
