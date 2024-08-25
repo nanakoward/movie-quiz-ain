@@ -214,6 +214,7 @@ function getRandomQuestion() {
     if (questions.length === 0) {
                        // 피드백 초기화를 가장 먼저 호출하여 즉시 반영
                        resetFeedback();
+                       playRandomSound();
                        triggerFireworks();
         document.getElementById("question").innerText = `당신은 ${selectedCategory}의 마스터 짱짱맨 짱짱걸 당신은 미쳤어!`;
         return;
@@ -276,6 +277,7 @@ if (allTimeHighestScores[selectedCategory] >= originalQuestions.filter(q => q.ca
     disableAnswerInputs(); // 질문 개수와 동일하거나 큰 경우 비활성화
                    // 피드백 초기화를 가장 먼저 호출하여 즉시 반영
                    resetFeedback();
+                   playRandomSound();
                    triggerFireworks();
     return;
 }
@@ -312,8 +314,6 @@ answerInput.focus(); // 입력창에 포커스
 function triggerFireworks() {
     const container = document.getElementById('fireworks-container');
     const colors = ['red', 'yellow', 'blue', 'green', 'orange', 'purple', 'pink']; // 다양한 색상 배열
-
-    playRandomSound();
 
     // 진동 효과 추가
     if (navigator.vibrate) {
