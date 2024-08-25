@@ -96,9 +96,15 @@ function updateHighestScoreDisplay() {
 function showHint() {
     document.getElementById("hint").innerText = currentQuestion.hint;
     document.getElementById("hint").style.display = 'block';
-    document.getElementById("show-answer-btn").style.display = 'block'; // Show Answer 버튼 표시
+
+    // Show Answer 버튼 표시
+    const showAnswerButton = document.getElementById("show-answer-btn");
+    showAnswerButton.style.display = 'block'; 
+    showAnswerButton.style.opacity = '0.2'; // 투명도 설정
+
     resetStreak(); // 힌트를 사용하면 연속 정답 수 초기화
 }
+
 
 function showAnswer() {
     document.getElementById("correct-answer").innerText = currentQuestion.answer;
