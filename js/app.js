@@ -462,6 +462,10 @@ function selectCategory() {
     }
 }
 
+document.getElementById('trigger-fireworks-button').addEventListener('click', () => {
+    playRandomSound();
+    triggerFireworks();
+});
 
 function playRandomSound() {
     // 오디오 요소의 ID를 배열로 저장
@@ -473,6 +477,9 @@ function playRandomSound() {
     // 선택된 오디오 요소 재생
     const sound = document.getElementById(randomSoundId);
     sound.play();
+
+        // 버튼 클릭 이벤트 수동 트리거
+        document.getElementById('trigger-fireworks-button').click();
 }
 
 
