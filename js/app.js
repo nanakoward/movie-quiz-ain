@@ -187,7 +187,7 @@ function checkAnswer() {
 
 // 버튼 비활성화 및 스타일 변경 함수
 function disableAnswerButton() {
-    const answerButton = document.getElementById("answer-button"); // checkAnswer()가 연결된 버튼
+    const answerButton = document.getElementById("submit-answer-button"); // checkAnswer()가 연결된 버튼
     answerButton.disabled = true; // 버튼 비활성화
     answerButton.classList.add("disabled-button"); // 비활성화 스타일 추가
 }
