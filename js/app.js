@@ -127,15 +127,11 @@ function checkAnswer() {
     const userAnswer = answerInput.value.trim().toLowerCase();
     const correctAnswer = currentQuestion.answer.toLowerCase();
 
-    if (showAnswerUsed) {
-        resetStreak();
-    }
-
     // 정답이 맞든 틀리든 show-answer-btn과 correct-answer의 스타일을 display:none으로 설정
     document.getElementById("show-answer-btn").style.display = 'none';
     document.getElementById("correct-answer").style.display = 'none';
 
-    if (userAnswer === correctAnswer) {
+    if (userAnswer === correctAnswer && !showAnswerUsed) {
         currentStreak++;
         document.getElementById("feedback").innerText = `${nickname}, 정답!`;
         document.getElementById("feedback").className = "correct";
@@ -165,7 +161,9 @@ function checkAnswer() {
             getRandomQuestion(); 
         }, 1000);
     } else {
-        document.getElementById("feedback").innerText = `${nickname}, 까비..`;
+        // showAnswer()가 실행되었으면 오답 처리 및 "다시 도전!!!!" 메시지 표시
+        const feedbackMessage = showAnswerUsed ? '다시 도전!!!!' : `${nickname}, 까비..`;
+        document.getElementById("feedback").innerText = feedbackMessage;
         document.getElementById("feedback").className = "incorrect";
 
         resetStreak();  // 틀린 경우 streak 초기화
@@ -184,6 +182,7 @@ function checkAnswer() {
     answerInput.value = ''; 
     answerInput.focus(); 
 }
+
 
 // 버튼 비활성화 및 스타일 변경 함수
 function disableAnswerButton() {
