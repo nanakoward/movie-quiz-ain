@@ -131,7 +131,6 @@ function checkAnswer() {
         resetStreak();
     }
 
-    // 정답이 맞든 틀리든 show-answer-btn의 스타일을 display:none으로 설정
     // 정답이 맞든 틀리든 show-answer-btn과 correct-answer의 스타일을 display:none으로 설정
     document.getElementById("show-answer-btn").style.display = 'none';
     document.getElementById("correct-answer").style.display = 'none';
@@ -158,6 +157,8 @@ function checkAnswer() {
         document.getElementById("feedback").innerText = `${nickname}, 까비..`;
         document.getElementById("feedback").className = "incorrect";
         resetStreak(); 
+
+        // 틀렸을 경우 선택된 카테고리의 questions를 초기화
         resetQuestions(); 
 
         updateHighestScoreDisplay(); 
