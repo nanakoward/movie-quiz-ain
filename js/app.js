@@ -209,15 +209,12 @@ function resetFeedback() {
     const feedbackElement = document.getElementById("feedback");
     feedbackElement.innerText = ''; // 피드백 메시지 초기화
     feedbackElement.className = ''; // 클래스 초기화
-
-    // 강제로 DOM 업데이트 반영
-    feedbackElement.style.display = 'none';
-    feedbackElement.offsetHeight; // 강제로 리플로우(Reflow)를 일으킴
-    feedbackElement.style.display = ''; // 다시 표시
 }
 
 function getRandomQuestion() {
     if (questions.length === 0) {
+                       // 피드백 초기화를 가장 먼저 호출하여 즉시 반영
+                       resetFeedback();
         document.getElementById("question").innerText = `당신은 ${selectedCategory}의 마스터 짱짱맨 짱짱걸 당신은 미쳤어!`;
         return;
     }
@@ -260,6 +257,7 @@ function checkAnswer() {
         currentStreak[selectedCategory]++;
         document.getElementById("feedback").innerText = `${nickname}, 정답!`;
         document.getElementById("feedback").className = "correct";
+ 
 
         highestScores[selectedCategory] = currentStreak[selectedCategory];
 // highestScores와 allTimeHighestScores 업데이트
@@ -338,8 +336,6 @@ function updateHighestScoreDisplay() {
 function selectCategory() {
     selectedCategory = document.getElementById('category').value;
     updateHighestScoreDisplay();
-        // 피드백 초기화를 가장 먼저 호출하여 즉시 반영
-        resetFeedback();
     resetQuestions();
 
     // 선택된 카테고리의 All-Time Highest Streak가 해당 카테고리의 질문 개수 이상인지 확인
