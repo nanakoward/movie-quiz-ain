@@ -206,12 +206,15 @@ function shuffleQuestions() {
 //     showAnswerUsed = false; 
 // }
 function resetFeedback() {
-    // 피드백 초기화
     const feedbackElement = document.getElementById("feedback");
-    feedbackElement.innerText = '';        // 피드백 텍스트 초기화
-    feedbackElement.className = '';        // 클래스 초기화
-}
+    feedbackElement.innerText = ''; // 피드백 메시지 초기화
+    feedbackElement.className = ''; // 클래스 초기화
 
+    // 강제로 DOM 업데이트 반영
+    feedbackElement.style.display = 'none';
+    feedbackElement.offsetHeight; // 강제로 리플로우(Reflow)를 일으킴
+    feedbackElement.style.display = ''; // 다시 표시
+}
 
 function getRandomQuestion() {
     if (questions.length === 0) {
@@ -335,10 +338,9 @@ function updateHighestScoreDisplay() {
 function selectCategory() {
     selectedCategory = document.getElementById('category').value;
     updateHighestScoreDisplay();
+        // 피드백 초기화를 가장 먼저 호출하여 즉시 반영
+        resetFeedback();
     resetQuestions();
-
-    // 피드백 초기화를 가장 먼저 호출하여 즉시 반영
-    resetFeedback();
 
     // 선택된 카테고리의 All-Time Highest Streak가 해당 카테고리의 질문 개수 이상인지 확인
     const totalQuestionsInCategory = originalQuestions.filter(q => q.category.includes(selectedCategory)).length;
