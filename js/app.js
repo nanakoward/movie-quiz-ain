@@ -214,6 +214,7 @@ function getRandomQuestion() {
     if (questions.length === 0) {
                        // 피드백 초기화를 가장 먼저 호출하여 즉시 반영
                        resetFeedback();
+                       triggerFireworks();
         document.getElementById("question").innerText = `당신은 ${selectedCategory}의 마스터 짱짱맨 짱짱걸 당신은 미쳤어!`;
         return;
     }
@@ -275,6 +276,7 @@ if (allTimeHighestScores[selectedCategory] >= originalQuestions.filter(q => q.ca
     disableAnswerInputs(); // 질문 개수와 동일하거나 큰 경우 비활성화
                    // 피드백 초기화를 가장 먼저 호출하여 즉시 반영
                    resetFeedback();
+                   triggerFireworks();
     return;
 }
 
@@ -305,6 +307,28 @@ answerInput.value = ''; // 입력창 초기화
 answerInput.focus(); // 입력창에 포커스
 }
        
+
+// 불꽃놀이 효과 함수
+function triggerFireworks() {
+    const container = document.getElementById('fireworks-container');
+
+    for (let i = 0; i < 20; i++) { // 불꽃의 개수
+        const firework = document.createElement('div');
+        firework.className = 'firework';
+
+        // 불꽃의 초기 위치 랜덤 설정
+        firework.style.left = `${Math.random() * 100}%`;
+        firework.style.top = `${Math.random() * 100}%`;
+
+        container.appendChild(firework);
+
+        // 일정 시간이 지난 후 불꽃 제거
+        setTimeout(() => {
+            firework.remove();
+        }, 1000); // 애니메이션 길이와 동일하게 설정
+    }
+}
+
 
 // 버튼 비활성화 및 스타일 변경 함수
 function disableAnswerInputs() {
