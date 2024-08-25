@@ -1,16 +1,16 @@
-let originalQuestions = []; // 초기 질문 데이터를 저장하는 배열
-let questions = []; // JSON 데이터를 로드하여 저장할 변수
+let originalQuestions = [];
+let questions = [];
 let currentQuestion = null;
-let highestScores = {}; // 카테고리별 현재 최고 점수 저장 객체
-let allTimeHighestScores = {}; // 카테고리별 가장 높았던 최고 점수 저장 객체
-let currentStreak = 0; // 현재 연속 정답 수
-let showAnswerUsed = false; // Show Answer 버튼 사용 여부
-let selectedCategory = 'all'; // 기본 선택 카테고리
-let nickname = ''; // 사용자 닉네임
+let highestScores = {};
+let allTimeHighestScores = {};
+let currentStreak = 0;
+let showAnswerUsed = false;
+let selectedCategory = 'all';
+let nickname = '';
 
-// 로컬 저장소에서 현재 최고 점수와 모든 시간의 최고 점수, 닉네임 가져오기
+// Initialize scores and nickname
 function getHighestScores() {
-    return {}; // 사이트를 열 때마다 highestScores를 초기화
+    return {}; 
 }
 
 function getAllTimeHighestScores() {
@@ -21,7 +21,7 @@ function getNickname() {
     return localStorage.getItem('nickname') || '';
 }
 
-// 로컬 저장소에 현재 최고 점수와 모든 시간의 최고 점수, 닉네임 저장하기
+// Save scores and nickname
 function saveHighestScores(scores) {
     localStorage.setItem('highestScores', JSON.stringify(scores));
 }
@@ -38,12 +38,13 @@ function saveNickname() {
     }
 }
 
+// Save nickname from settings
 function saveNicknameFromSettings() {
     const newNickname = document.getElementById('settings-nickname-input').value.trim();
     if (newNickname) {
         nickname = newNickname;
         localStorage.setItem('nickname', nickname);
-        closeSettings(); // 닉네임을 저장한 후 팝업을 닫습니다.
+        closeSettings();
     }
 }
 
@@ -57,8 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById("save-settings-button").addEventListener("click", saveNicknameFromSettings);
     document.getElementById("close-settings-button").addEventListener("click", closeSettings);
-// Reset 확인 버튼 작동하도록 설정
-document.getElementById("reset-button").addEventListener("click", confirmReset);
+    document.getElementById("reset-button").addEventListener("click", confirmReset);
 
     document.addEventListener('click', function(event) {
         if (event.target && event.target.id === 'confirm-reset-yes') {
@@ -85,14 +85,14 @@ function closeSettings() {
 
 function openSettings() {
     const settingsPopup = document.getElementById('settings-popup');
-    settingsPopup.style.backgroundColor = "#333";  // Setting 메뉴의 배경색 설정
+    settingsPopup.style.backgroundColor = "#333";
     settingsPopup.style.display = 'block';
     document.getElementById("reset-button").addEventListener("click", confirmReset);
 }
 
 function resetAllData() {
-    localStorage.clear(); // 로컬 스토리지 전체 초기화
-    location.reload(); // 페이지 새로고침
+    localStorage.clear();
+    location.reload();
 }
 
 function confirmReset() {
@@ -103,20 +103,17 @@ function confirmReset() {
         <button id="confirm-reset-no">아니오</button>
     `;
 }
+
 function normalizeString(str) {
-    return str.toLowerCase().replace(/\s+/g, ''); // 소문자로 변경하고 모든 띄어쓰기를 제거
+    return str.toLowerCase().replace(/\s+/g, '');
 }
 
-function getNormalizedAnswer(answer) {
-    return normalizeString(answer);
-}
-
-// JSON 파일에서 데이터를 가져와서 초기화합니다.
+// JSON 파일에서 데이터를 가져와서 초기화
 fetch('questions.json')
 .then(response => response.json())
 .then(data => {
     originalQuestions = data.map(question => {
-        question.answer = normalizeString(question.answer); // 정답을 정규화하여 저장
+        question.answer = normalizeString(question.answer);
         return question;
     });
     resetQuestions();
@@ -161,7 +158,7 @@ function getRandomQuestion() {
     document.getElementById("question").innerText = currentQuestion.question;
     document.getElementById("hint").style.display = 'none';
     document.getElementById("correct-answer").style.display = 'none';
-    document.getElementById("show-answer-btn").style.display = 'none'; // Show Answer 버튼 숨김
+    document.getElementById("show-answer-btn").style.display = 'none';
     document.getElementById("answer-input").value = '';
     document.getElementById("feedback").innerText = '';
     document.getElementById("answer-input").focus();
@@ -170,8 +167,8 @@ function getRandomQuestion() {
 
 function checkAnswer() {
     const answerInput = document.getElementById("answer-input");
-    const userAnswer = normalizeString(answerInput.value);  // 입력된 답변을 정규화
-    const correctAnswer = normalizeString(currentQuestion.answer);  // 정답을 정규화
+    const userAnswer = normalizeString(answerInput.value);
+    const correctAnswer = currentQuestion.answer;
 
     if (showAnswerUsed) {
         resetStreak();
@@ -216,8 +213,8 @@ function checkAnswer() {
 
 function resetStreak() {
     currentStreak = 0;
-    highestScores[selectedCategory] = 0; 
-    saveHighestScores(highestScores); // 초기화된 점수를 저장
+    highestScores[selectedCategory] = 0;
+    saveHighestScores(highestScores);
     updateHighestScoreDisplay();
 }
 
@@ -255,6 +252,7 @@ function selectCategory() {
     resetQuestions();
     getRandomQuestion();
 }
+
 let isRefreshing = false;
 
 function handleTouchStart(event) {
