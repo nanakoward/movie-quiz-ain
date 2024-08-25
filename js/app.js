@@ -55,7 +55,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // 관련된 초기 작업들 실행
     updateHighestScoreDisplay(); // 최고 점수 표시
     resetQuestions(); // 카테고리에 맞는 질문들로 초기화
-    checkAllTimeHighestStreak(); // 최고 연속 정답 수 확인
+    
+    // 최고 연속 정답 수와 전체 질문 개수를 비교하여 처리
+    const totalQuestionsInCategory = originalQuestions.filter(q => q.category.includes(selectedCategory)).length;
+    const currentAllTimeHighestStreak = allTimeHighestScores[selectedCategory] || 0;
+
+    if (currentAllTimeHighestStreak === totalQuestionsInCategory) {
+        checkAllTimeHighestStreak(); // 최고 연속 정답 수가 질문 개수와 같을 때만 실행
+    }
+
     getRandomQuestion(); // 질문을 하나 선택하여 표시
 
     document.getElementById('settings-nickname-input').addEventListener('keydown', function(event) {
@@ -68,10 +76,8 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById("save-settings-button").addEventListener("click", saveNicknameFromSettings);
     document.getElementById("close-settings-button").addEventListener("click", closeSettings);
     document.getElementById("reset-button").addEventListener("click", confirmReset); // 초기화 버튼 리스너 추가
-
-    // updateAllCategoriesCount(); // All Categories의 질문 개수를 업데이트
-    checkAllTimeHighestStreak();
 });
+
 
 // function updateAllCategoriesCount() {
 //     const totalQuestions = originalQuestions.length; // 모든 카테고리의 질문 개수를 합산
