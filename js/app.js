@@ -91,7 +91,11 @@ fetch('questions.json')
     });
 
 function resetQuestions() {
-    questions = [...originalQuestions]; // 원래 질문 배열을 복사하여 다시 셋팅
+    if (selectedCategory === 'all') {
+        questions = [...originalQuestions]; // 모든 카테고리의 질문을 복사
+    } else {
+        questions = originalQuestions.filter(q => q.category === selectedCategory); // 선택한 카테고리의 질문만 복사
+    }
     shuffleQuestions(); // 질문을 랜덤하게 섞음
 }
 
@@ -104,7 +108,7 @@ function shuffleQuestions() {
 
 function getRandomQuestion() {
     if (questions.length === 0) {
-        document.getElementById("question").innerText = "You've completed all the questions!";
+        document.getElementById("question").innerText = `당신은 ${selectedCategory}의 마스터 짱짱맨 짱짱걸 당신은 미쳤어!`;
         return;
     }
     
@@ -132,6 +136,13 @@ function checkAnswer() {
         currentStreak++;
         document.getElementById("feedback").innerText = `${nickname}, 정답!`;
         document.getElementById("feedback").className = "correct";
+
+        if (currentStreak > (highestScores[selectedCategory] || 0)) {
+            highestScores[selectedCategory] = currentStreak;
+            saveHighestScores(highestScores);
+            updateAllTimeHighestScores(selectedCategory, currentStreak);
+        }
+
         setTimeout(() => {
             document.getElementById("feedback").innerText = "";
             document.getElementById("feedback").className = "";
@@ -160,6 +171,7 @@ function resetStreak() {
         updateAllTimeHighestScores(selectedCategory, currentStreak);
     }
     currentStreak = 0;
+    highestScores[selectedCategory] = 0; // 오답 시 Highest Streak을 0으로 초기화
     updateHighestScoreDisplay();
 }
 
@@ -171,8 +183,8 @@ function updateAllTimeHighestScores(category, score) {
 }
 
 function updateHighestScoreDisplay() {
-    document.getElementById("highest-score").innerText = `${selectedCategory} Highest Streak: ${highestScores[selectedCategory] || 0}`;
     document.getElementById("all-time-highest-score").innerText = `All-Time ${selectedCategory} Highest Streak: ${allTimeHighestScores[selectedCategory] || 0}`;
+    document.getElementById("highest-score").innerText = `${selectedCategory} Highest Streak: ${highestScores[selectedCategory] || 0}`;
 }
 
 function showHint() {
@@ -189,6 +201,7 @@ function showAnswer() {
     document.getElementById("correct-answer").innerText = currentQuestion.answer;
     document.getElementById("correct-answer").style.display = 'block';
     showAnswerUsed = true; // Show Answer를 사용한 경우 연속 정답에서 제외
+    resetStreak(); // Show Answer를 사용한 경우 연속 정답 수 초기화
 }
 
 function selectCategory() {
