@@ -131,8 +131,8 @@ function checkAnswer() {
         resetStreak();
     }
 
-    // 정답이 맞든 틀리든 correct-answer의 스타일을 display:none으로 설정
-    document.getElementById("correct-answer").style.display = 'none';
+    // 정답이 맞든 틀리든 show-answer-btn의 스타일을 display:none으로 설정
+    document.getElementById("show-answer-btn").style.display = 'none';
 
     if (userAnswer === correctAnswer) {
         currentStreak++;
