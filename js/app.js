@@ -117,3 +117,4 @@ document.addEventListener("touchmove", function(event) {
 function closeApp() {
     alert("나가는 기능 안됨ㅠㅠ 그냥 홈버튼 눌러서 앱 끄면 됩니다");
 }
+
