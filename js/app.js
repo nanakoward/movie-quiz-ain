@@ -145,11 +145,11 @@ fetch('questions.json')
         data.forEach(item => {
             if (!Array.isArray(item.category)) {
                 // category가 문자열이면 배열로 변환하고 "All Categories" 추가
-                item.category = [item.category, "All Categories"];
+                item.category = [item.category, "all"];
             } else {
                 // category가 이미 배열이면 "All Categories"를 추가
-                if (!item.category.includes("All Categories")) {
-                    item.category.push("All Categories");
+                if (!item.category.includes("all")) {
+                    item.category.push("all");
                 }
             }
 
