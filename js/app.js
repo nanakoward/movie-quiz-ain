@@ -93,56 +93,11 @@ function checkAllTimeHighestStreak() {
     const currentAllTimeHighestStreak = allTimeHighestScores[selectedCategory] || 0;
 
     if (currentAllTimeHighestStreak >= totalQuestionsInCategory) {
-        const answerInput = document.getElementById("answer-input");
-        const submitButton = document.getElementById("submit-answer-button");
-
-        // 입력창에 마스터 메시지를 표시하고 비활성화
-        answerInput.value = `당신은 ${selectedCategory}의 마스터 짱짱맨 짱짱걸 당신은 미쳤어!`;
-        answerInput.disabled = true;
-        submitButton.disabled = true;
-
-        // 비활성화 스타일 적용
-        answerInput.classList.add("disabled-input");
-        submitButton.classList.add("disabled-button");
+        disableAnswerInputs(); // 질문 개수와 동일하거나 큰 경우 비활성화
     } else {
-        enableAnswerInputs(); // 질문 개수보다 미만일 경우 입력창과 버튼 활성화
+        enableAnswerInputs(); // 질문 개수보다 작은 경우 활성화
     }
 }
-
-// 답변 입력창 및 버튼을 활성화하는 함수
-// function enableAnswerInputs() {
-//     const answerInput = document.getElementById("answer-input");
-//     answerInput.value = ''; // 입력창 초기화
-//     answerInput.disabled = false; // 입력창 활성화
-//     answerInput.classList.remove("disabled-input"); // 비활성화 스타일 제거
-
-//     const answerButton = document.getElementById("submit-answer-button");
-//     answerButton.disabled = false; // 버튼 활성화
-//     answerButton.classList.remove("disabled-button"); // 비활성화 스타일 제거
-// }
-
-
-// // 로컬 저장소에 마스터 메시지 저장
-// function saveMasterMessageToStorage() {
-//     localStorage.setItem(`masterMessage_${selectedCategory}`, `당신은 ${selectedCategory}의 마스터 짱짱맨 짱짱걸 당신은 미쳤어!`);
-// }
-
-// 로컬 저장소에서 마스터 메시지 불러오기
-// function loadMasterMessageFromStorage() {
-//     const storedMessage = localStorage.getItem(`masterMessage_${selectedCategory}`);
-//     if (storedMessage) {
-//         disableAnswerInputs(); // 마스터 메시지가 있으면 입력창과 버튼을 비활성화
-//     }
-// }
-
-// 입력창에 Master 메시지를 표시하는 함수
-// function displayMasterInInput() {
-//     const answerInput = document.getElementById("answer-input");
-//     answerInput.value = `당신은 ${selectedCategory}의 마스터 짱짱맨 짱짱걸 당신은 미쳤어!`;
-//     answerInput.style.textAlign = "center"; // 텍스트를 가운데 정렬
-//     answerInput.style.color = "#000"; // 텍스트 색상 설정
-//     answerInput.style.fontWeight = "bold"; // 텍스트 굵게 설정
-// }
 
 // 답변 입력창 및 버튼을 활성화하는 함수
 function enableAnswerInputs() {
@@ -264,7 +219,8 @@ function checkAnswer() {
 
         checkAllTimeHighestStreak(); // 정답 제출 후 checkAllTimeHighestStreak 실행
 
-        if (allTimeHighestScores[selectedCategory] === originalQuestions.filter(q => q.category.includes(selectedCategory)).length) {
+        if (allTimeHighestScores[selectedCategory] >= originalQuestions.filter(q => q.category.includes(selectedCategory)).length) {
+            disableAnswerInputs(); // 질문 개수와 동일하거나 큰 경우 비활성화
             return;
         }
 
@@ -294,7 +250,6 @@ function checkAnswer() {
 }
 
 
-
 // Master 메시지를 표시하는 함수
 // function displayMasterMessage() {
 //     document.getElementById("question").innerText = `당신은 ${selectedCategory}의 마스터 짱짱맨 짱짱걸 당신은 미쳤어!`;
@@ -317,8 +272,9 @@ function disableAnswerInputs() {
 
     answerInput.disabled = true; // 입력창 비활성화
     answerInput.classList.add("disabled-input"); // 비활성화 스타일 추가
-}
 
+    answerInput.value = `당신은 ${selectedCategory}의 마스터 짱짱맨 짱짱걸 당신은 미쳤어!`;
+}
 
 function getRandomQuestion() {
     if (questions.length === 0) {
@@ -384,8 +340,9 @@ function selectCategory() {
     const currentAllTimeHighestStreak = allTimeHighestScores[selectedCategory] || 0;
 
     if (currentAllTimeHighestStreak >= totalQuestionsInCategory) {
-        checkAllTimeHighestStreak();
+        disableAnswerInputs(); // 질문 개수와 동일하거나 큰 경우 비활성화
     } else {
+        enableAnswerInputs(); // 질문 개수보다 작은 경우 활성화
         getRandomQuestion(); // 새 카테고리에서 질문을 하나 선택하여 표시
     }
 }
