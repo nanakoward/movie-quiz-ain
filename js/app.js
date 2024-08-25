@@ -464,7 +464,6 @@ function selectCategory() {
 
 document.getElementById('trigger-fireworks-button').addEventListener('click', () => {
     playRandomSound();
-    triggerFireworks();
 });
 
 function playRandomSound() {
