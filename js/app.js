@@ -466,12 +466,12 @@ function resetStreak() {
 
 
 function updateHighestScoreDisplay() {
-    document.getElementById("all-time-highest-score").innerText = `All-Time ${selectedCategory} Highest Streak: ${allTimeHighestScores[selectedCategory] || 0}`;
+    document.getElementById("all-time-highest-score").innerText = `All-Time ${selectedCategory} 최고기록 : ${allTimeHighestScores[selectedCategory] || 0}`;
     document.getElementById("highest-score").innerText = `${selectedCategory} Highest Streak: ${highestScores[selectedCategory] || 0}`;
 }
 
 function closeApp() {
-    alert("To close the app, use your device's navigation buttons.");
+    alert("나가는 기능 안됨ㅠㅠ 그냥 홈버튼 눌러서 앱 끄면 됩니다");
 }
 
 function resetAllData() {
