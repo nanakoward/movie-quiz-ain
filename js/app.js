@@ -57,7 +57,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById("save-settings-button").addEventListener("click", saveNicknameFromSettings);
     document.getElementById("close-settings-button").addEventListener("click", closeSettings);
-
+// Reset 확인 버튼 작동하도록 설정
+document.getElementById("reset-button").addEventListener("click", confirmReset);
     document.addEventListener('click', function(event) {
         if (event.target && event.target.id === 'confirm-reset-yes') {
             resetAllData();
@@ -84,15 +85,7 @@ function closeSettings() {
 function openSettings() {
     const settingsPopup = document.getElementById('settings-popup');
     settingsPopup.style.backgroundColor = "#333";  // Setting 메뉴의 배경색 설정
-    settingsPopup.innerHTML = `
-        <h2>Change your nickname:</h2>
-        <input type="text" id="settings-nickname-input" placeholder="Your new nickname" value="${nickname}">
-        <button id="save-settings-button">Save</button>
-        <button id="close-settings-button">Close</button>
-        <button id="reset-button">초기화</button>
-    `;
-    document.getElementById('settings-popup').style.display = 'block';
-
+    settingsPopup.style.display = 'block';
     document.getElementById("reset-button").addEventListener("click", confirmReset);
 }
 
@@ -153,15 +146,16 @@ function getRandomQuestion() {
     }
 
     currentQuestion = questions.pop();
-
     document.getElementById("question").innerText = currentQuestion.question;
     document.getElementById("hint").style.display = 'none';
     document.getElementById("correct-answer").style.display = 'none';
+    document.getElementById("show-answer-btn").style.display = 'none'; // Show Answer 버튼 숨김
     document.getElementById("answer-input").value = '';
     document.getElementById("feedback").innerText = '';
     document.getElementById("answer-input").focus();
     showAnswerUsed = false;
 }
+
 
 function checkAnswer() {
     const answerInput = document.getElementById("answer-input");
