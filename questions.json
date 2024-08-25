@@ -18,39 +18,15 @@
         "category": "film_history"
     },
     {
-        "question": "Which film won the first Academy Award for Best Picture?",
-        "answer": "Wings",
-        "hint": "It is a 1927 silent war film.",
-        "category": "film_history"
-    },
-    {
-        "question": "What is the highest-grossing film of all time?",
-        "answer": "Avatar",
-        "hint": "Directed by James Cameron.",
+        "question": "Why do you want to study film?",
+        "answer": "I am passionate about storytelling and visual arts.",
+        "hint": "Think about your motivation for studying film.",
         "category": "interview_questions"
     },
-        {
-        "question": "What is the highest-grossing film of all time?",
-        "answer": "Avatar",
-        "hint": "Directed by James Cameron.",
-        "category": "film_theory"
-    },
     {
-        "question": "What is the highest-grossing film of all time?",
-        "answer": "Avatar",
-        "hint": "Directed by James Cameron.",
-        "category": "film_theory"
-    },
-    {
-        "question": "What is the highest-grossing film of all time?",
-        "answer": "Avatar",
-        "hint": "Directed by James Cameron.",
-        "category": "film_theory"
-    },
-    {
-        "question": "What is the highest-grossing film of all time?",
-        "answer": "Avatar",
-        "hint": "Directed by James Cameron.",
-        "category": "film_theory"
+        "question": "What is your favorite film and why?",
+        "answer": "My favorite film is Inception because of its complex narrative and visual style.",
+        "hint": "Consider your personal tastes and what resonates with you.",
+        "category": "interview_questions"
     }
 ]

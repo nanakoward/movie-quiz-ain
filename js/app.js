@@ -8,6 +8,7 @@ fetch('questions.json')
     .then(response => response.json())
     .then(data => {
         questions = data;
+        console.log("Questions loaded:", questions); // 디버깅을 위한 로그 추가
         getRandomQuestion(); // JSON 데이터가 로드된 후 첫 질문을 출력
     })
     .catch(error => {
@@ -16,10 +17,12 @@ fetch('questions.json')
 
 function getRandomQuestion() {
     const category = document.getElementById('category').value;
+    console.log("Selected category:", category); // 디버깅을 위한 로그 추가
     let filteredQuestions = questions;
 
     if (category !== 'all') {
         filteredQuestions = questions.filter(q => q.category === category);
+        console.log("Filtered questions:", filteredQuestions); // 필터링된 질문들 로그
     }
 
     if (filteredQuestions.length === 0) {
