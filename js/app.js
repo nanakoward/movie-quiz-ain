@@ -72,6 +72,11 @@ document.addEventListener('DOMContentLoaded', () => {
 // }
 
 function checkAllTimeHighestStreak() {
+    if (selectedCategory === 'all') {
+        enableAnswerInputs(); // 'all' 카테고리에서는 항상 입력 활성화
+        return;
+    }
+
     const totalQuestionsInCategory = originalQuestions.filter(q => q.category.includes(selectedCategory)).length;
     const currentAllTimeHighestStreak = allTimeHighestScores[selectedCategory] || 0;
 
@@ -84,6 +89,7 @@ function checkAllTimeHighestStreak() {
         enableAnswerInputs(); // 다른 카테고리에서 활성화
     }
 }
+
 
 // 로컬 저장소에 마스터 메시지 저장
 function saveMasterMessageToStorage() {
