@@ -131,6 +131,7 @@ function checkAllTimeHighestStreak() {
     }
 }
 
+
 // 답변 입력창 및 버튼을 활성화하는 함수
 function enableAnswerInputs() {
     const answerButton = document.getElementById("submit-answer-button"); // checkAnswer()가 연결된 버튼
@@ -224,7 +225,6 @@ function getRandomQuestion() {
     showAnswerUsed = false; 
 }
 
-
 // 정답을 제출하는 함수
 function checkAnswer() {
     const answerInput = document.getElementById("answer-input");
@@ -235,14 +235,19 @@ function checkAnswer() {
     document.getElementById("correct-answer").style.display = 'none';
 
     if (userAnswer === correctAnswer && !showAnswerClicked) {
-        currentStreak++;
+        // 카테고리별로 currentStreak 관리
+        if (!currentStreak[selectedCategory]) {
+            currentStreak[selectedCategory] = 0;
+        }
+
+        currentStreak[selectedCategory]++;
         document.getElementById("feedback").innerText = `${nickname}, 정답!`;
         document.getElementById("feedback").className = "correct";
 
-        highestScores[selectedCategory] = currentStreak;
+        highestScores[selectedCategory] = currentStreak[selectedCategory];
 
-        if (currentStreak > (allTimeHighestScores[selectedCategory] || 0)) {
-            allTimeHighestScores[selectedCategory] = currentStreak;
+        if (currentStreak[selectedCategory] > (allTimeHighestScores[selectedCategory] || 0)) {
+            allTimeHighestScores[selectedCategory] = currentStreak[selectedCategory];
             saveAllTimeHighestScores(allTimeHighestScores);
         }
 
@@ -281,6 +286,50 @@ function checkAnswer() {
     answerInput.focus();
 }
 
+// 버튼 비활성화 및 스타일 변경 함수
+function disableAnswerInputs() {
+    const answerButton = document.getElementById("submit-answer-button"); // checkAnswer()가 연결된 버튼
+    const answerInput = document.getElementById("answer-input"); // 답변 입력창
+
+    answerButton.disabled = true; // 버튼 비활성화
+    answerButton.classList.add("disabled-button"); // 비활성화 스타일 추가
+
+    answerInput.disabled = true; // 입력창 비활성화
+    answerInput.classList.add("disabled-input"); // 비활성화 스타일 추가
+
+    answerInput.value = `당신은 ${selectedCategory}의 마스터 짱짱맨 짱짱걸 당신은 미쳤어!`;
+}
+
+function resetStreak() {
+    currentStreak[selectedCategory] = 0; // 현재 선택된 카테고리의 연속 정답 수 초기화
+    highestScores[selectedCategory] = 0; 
+    updateHighestScoreDisplay(); 
+}
+
+function updateHighestScoreDisplay() {
+    document.getElementById("all-time-highest-score").innerText = `All-Time ${selectedCategory} Highest Streak: ${allTimeHighestScores[selectedCategory] || 0}`;
+    document.getElementById("highest-score").innerText = `${selectedCategory} Highest Streak: ${highestScores[selectedCategory] || 0}`;
+}
+
+// 선택한 카테고리를 변경하는 함수
+function selectCategory() {
+    selectedCategory = document.getElementById('category').value; // 선택된 카테고리로 설정
+    updateHighestScoreDisplay(); // 새로운 카테고리의 최고 점수 표시
+    resetQuestions(); // 새로운 카테고리에 맞는 질문들로 초기화
+
+    // 선택된 카테고리의 All-Time Highest Streak가 해당 카테고리의 질문 개수 이상인지 확인
+    const totalQuestionsInCategory = originalQuestions.filter(q => q.category.includes(selectedCategory)).length;
+    const currentAllTimeHighestStreak = allTimeHighestScores[selectedCategory] || 0;
+
+    if (currentAllTimeHighestStreak >= totalQuestionsInCategory) {
+        disableAnswerInputs(); // 질문 개수와 동일하거나 큰 경우 비활성화
+    } else {
+        enableAnswerInputs(); // 질문 개수보다 작은 경우 활성화
+        getRandomQuestion(); // 새 카테고리에서 질문을 하나 선택하여 표시
+    }
+}
+
+// 나머지 코드 유지
 
 // Master 메시지를 표시하는 함수
 // function displayMasterMessage() {
@@ -429,7 +478,7 @@ allTimeHighestScores = getAllTimeHighestScores();
 nickname = getNickname();
 
 function resetStreak() {
-    currentStreak = 0;
+    currentStreak[selectedCategory] = 0; // 현재 선택된 카테고리의 연속 정답 수 초기화
     highestScores[selectedCategory] = 0; 
     updateHighestScoreDisplay(); 
 }
