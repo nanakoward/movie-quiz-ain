@@ -4,10 +4,10 @@ let currentQuestion = null;
 let highestScores = {}; // 카테고리별 현재 최고 점수 저장 객체
 let allTimeHighestScores = {}; // 카테고리별 가장 높았던 최고 점수 저장 객체
 let currentStreak = {}; // 카테고리별 현재 연속 정답 수를 저장하는 객체
-let showAnswerUsed = false; // Show Answer 버튼 사용 여부
+// let showAnswerUsed = false; // Show Answer 버튼 사용 여부
 let selectedCategory = 'all_categories'; // 기본 선택 카테고리
 let nickname = ''; // 사용자 닉네임
-let showAnswerClicked = false; // Show Answer 버튼 클릭 여부
+// let showAnswerClicked = false; // Show Answer 버튼 클릭 여부
 
 // 로컬 저장소에서 현재 최고 점수와 모든 시간의 최고 점수, 닉네임 가져오기
 function getHighestScores() {
@@ -229,7 +229,6 @@ function getRandomQuestion() {
     }
     
     document.getElementById("answer-input").focus(); 
-    showAnswerUsed = false; 
 }
 
 
@@ -242,7 +241,7 @@ function checkAnswer() {
     document.getElementById("show-answer-btn").style.display = 'none';
     document.getElementById("correct-answer").style.display = 'none';
 
-    if (userAnswer === correctAnswer && !showAnswerClicked) {
+    if (userAnswer === correctAnswer) {
         // 카테고리별로 currentStreak 관리
         if (!currentStreak[selectedCategory]) {
             currentStreak[selectedCategory] = 0;
@@ -393,7 +392,7 @@ function showHint() {
 function showAnswer() {
     document.getElementById("correct-answer").innerText = currentQuestion.answer;
     document.getElementById("correct-answer").style.display = 'block';
-    showAnswerClicked = true; // Show Answer 버튼이 클릭되었음을 표시
+    // showAnswerClicked = true; // Show Answer 버튼이 클릭되었음을 표시
     resetStreak();
     document.getElementById("show-answer-btn").style.display = 'none'; // Show Answer 버튼을 숨김
 }
