@@ -7,6 +7,7 @@ let currentStreak = 0; // 현재 연속 정답 수
 let showAnswerUsed = false; // Show Answer 버튼 사용 여부
 let selectedCategory = 'all'; // 기본 선택 카테고리
 let nickname = ''; // 사용자 닉네임
+let showAnswerClicked = false; // Show Answer 버튼 클릭 여부
 
 // 로컬 저장소에서 현재 최고 점수와 모든 시간의 최고 점수, 닉네임 가져오기
 function getHighestScores() {
@@ -131,7 +132,7 @@ function checkAnswer() {
     document.getElementById("show-answer-btn").style.display = 'none';
     document.getElementById("correct-answer").style.display = 'none';
 
-    if (userAnswer === correctAnswer && !showAnswerUsed) {
+    if (userAnswer === correctAnswer && !showAnswerClicked) {
         currentStreak++;
         document.getElementById("feedback").innerText = `${nickname}, 정답!`;
         document.getElementById("feedback").className = "correct";
@@ -161,8 +162,8 @@ function checkAnswer() {
             getRandomQuestion(); 
         }, 1000);
     } else {
-        // showAnswer()가 실행되었으면 오답 처리 및 "다시 도전!!!!" 메시지 표시
-        const feedbackMessage = showAnswerUsed ? '다시 도전!!!!' : `${nickname}, 까비..`;
+        // showAnswer()가 클릭되었으면 오답 처리 및 "다시 도전!!!!" 메시지 표시
+        const feedbackMessage = showAnswerClicked ? '다시 도전!!!!' : `${nickname}, 까비..`;
         document.getElementById("feedback").innerText = feedbackMessage;
         document.getElementById("feedback").className = "incorrect";
 
@@ -207,7 +208,7 @@ function getRandomQuestion() {
     document.getElementById("answer-input").value = '';
     document.getElementById("feedback").innerText = '';
     document.getElementById("answer-input").focus(); 
-    showAnswerUsed = false; 
+    showAnswerClicked = false; // 새로운 질문으로 넘어갈 때 Show Answer 상태를 초기화
 }
 
 
@@ -241,7 +242,7 @@ function showHint() {
 function showAnswer() {
     document.getElementById("correct-answer").innerText = currentQuestion.answer;
     document.getElementById("correct-answer").style.display = 'block';
-    showAnswerUsed = true; 
+    showAnswerClicked = true; // Show Answer 버튼이 클릭되었음을 표시
     resetStreak(); 
 }
 
