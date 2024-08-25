@@ -57,7 +57,11 @@ function checkAnswer() {
     const userAnswer = answerInput.value.trim().toLowerCase();
     const correctAnswer = currentQuestion.answer.toLowerCase();
 
-    if (userAnswer === correctAnswer && !showAnswerUsed) {
+    if (showAnswerUsed) {
+        resetStreak();
+    }
+
+    if (userAnswer === correctAnswer) {
         currentStreak++;
         document.getElementById("feedback").innerText = "Correct!";
         document.getElementById("feedback").className = "correct";
@@ -101,16 +105,12 @@ function showHint() {
     const showAnswerButton = document.getElementById("show-answer-btn");
     showAnswerButton.style.display = 'block'; 
     showAnswerButton.style.opacity = '0.2'; // 투명도 설정
-
-    resetStreak(); // 힌트를 사용하면 연속 정답 수 초기화
 }
-
 
 function showAnswer() {
     document.getElementById("correct-answer").innerText = currentQuestion.answer;
     document.getElementById("correct-answer").style.display = 'block';
     showAnswerUsed = true; // Show Answer를 사용한 경우 연속 정답에서 제외
-    resetStreak(); // 정답을 확인하면 연속 정답 수 초기화
 }
 
 function selectCategory() {
