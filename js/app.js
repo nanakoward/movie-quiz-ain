@@ -66,6 +66,15 @@ document.addEventListener('DOMContentLoaded', () => {
             openSettings();
         }
     });
+
+    document.getElementById("answer-input").addEventListener("keydown", function(event) {
+        if (event.key === "Enter" || event.key === "Return") {
+            event.preventDefault(); 
+            checkAnswer(); 
+        }
+    });
+
+    document.getElementById("submit-answer-button").addEventListener("click", checkAnswer);
 });
 
 function closeSettings() {
@@ -74,6 +83,7 @@ function closeSettings() {
 
 function openSettings() {
     const settingsPopup = document.getElementById('settings-popup');
+    settingsPopup.style.backgroundColor = "#333";  // Setting 메뉴의 배경색 설정
     settingsPopup.innerHTML = `
         <h2>Change your nickname:</h2>
         <input type="text" id="settings-nickname-input" placeholder="Your new nickname" value="${nickname}">
@@ -239,7 +249,6 @@ function selectCategory() {
     resetQuestions();
     getRandomQuestion();
 }
-
 let isRefreshing = false;
 
 function handleTouchStart(event) {
@@ -263,4 +272,24 @@ function handleTouchEnd(event) {
         refreshIndicator.style.display = 'none';
     }
     isRefreshing = false;
+}
+
+window.addEventListener('touchstart', handleTouchStart);
+window.addEventListener('touchmove', handleTouchMove);
+window.addEventListener('touchend', handleTouchEnd);
+
+document.getElementById("answer-input").addEventListener("keydown", function(event) {
+    if (event.key === "Enter" || event.key === "Return") {
+        event.preventDefault(); 
+        checkAnswer(); 
+    }
+});
+
+highestScores = getHighestScores();
+allTimeHighestScores = getAllTimeHighestScores();
+nickname = getNickname();
+updateHighestScoreDisplay();
+
+function closeApp() {
+    alert("To close the app, use your device's navigation buttons.");
 }
