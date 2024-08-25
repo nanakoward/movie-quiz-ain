@@ -84,11 +84,33 @@ function checkAllTimeHighestStreak() {
     const currentAllTimeHighestStreak = allTimeHighestScores[selectedCategory] || 0;
 
     if (currentAllTimeHighestStreak === totalQuestionsInCategory) {
-        disableAnswerInputs();
+        // 마스터 상태: 입력창과 버튼 비활성화 및 마스터 메시지 표시
+        const answerInput = document.getElementById("answer-input");
+        answerInput.value = `당신은 ${selectedCategory}의 마스터 짱짱맨 짱짱걸 당신은 미쳤어!`;
+        answerInput.disabled = true; // 입력창 비활성화
+        answerInput.classList.add("disabled-input"); // 비활성화 스타일 추가
+
+        const answerButton = document.getElementById("submit-answer-button");
+        answerButton.disabled = true; // 버튼 비활성화
+        answerButton.classList.add("disabled-button"); // 비활성화 스타일 추가
     } else {
-        enableAnswerInputs(); // 다른 카테고리에서 활성화
+        // 마스터 상태가 아님: 입력창과 버튼 활성화 및 초기화
+        enableAnswerInputs();
     }
 }
+
+// 답변 입력창 및 버튼을 활성화하는 함수
+// function enableAnswerInputs() {
+//     const answerInput = document.getElementById("answer-input");
+//     answerInput.value = ''; // 입력창 초기화
+//     answerInput.disabled = false; // 입력창 활성화
+//     answerInput.classList.remove("disabled-input"); // 비활성화 스타일 제거
+
+//     const answerButton = document.getElementById("submit-answer-button");
+//     answerButton.disabled = false; // 버튼 활성화
+//     answerButton.classList.remove("disabled-button"); // 비활성화 스타일 제거
+// }
+
 
 // // 로컬 저장소에 마스터 메시지 저장
 // function saveMasterMessageToStorage() {
@@ -340,13 +362,17 @@ function showAnswer() {
     document.getElementById("show-answer-btn").style.display = 'none'; // Show Answer 버튼을 숨김
 }
 
+// 선택한 카테고리를 변경하는 함수
 function selectCategory() {
-    selectedCategory = document.getElementById('category').value;
-    updateHighestScoreDisplay(); 
-    resetQuestions(); 
-    checkAllTimeHighestStreak(); // 카테고리 변경 시 상태 확인
-    getRandomQuestion(); 
+    selectedCategory = document.getElementById('category').value; // 선택된 카테고리로 설정
+    
+    checkAllTimeHighestStreak(); // 새 카테고리에서 최고 연속 정답 수 확인 및 처리
+    
+    resetQuestions(); // 새로운 카테고리에 맞는 질문들로 초기화
+    getRandomQuestion(); // 새 카테고리에서 질문을 하나 선택하여 표시
+    updateHighestScoreDisplay(); // 새로운 카테고리의 최고 점수 표시
 }
+
 
 let isRefreshing = false;
 
