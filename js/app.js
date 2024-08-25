@@ -1,40 +1,46 @@
 let questions = []; // JSON 데이터를 로드하여 저장할 변수
 let currentQuestion = null;
 let correctCount = 0; // 맞힌 문제 수
-let totalQuestions = 0; // 전체 문제 수
-let touchStartY = 0;
+let highestScore = 0; // 최고 점수
+let currentStreak = 0; // 현재 연속 정답 수
+
+// 로컬 저장소에서 최고 점수 가져오기
+function getHighestScore() {
+    return parseInt(localStorage.getItem('highestScore')) || 0;
+}
+
+// 로컬 저장소에 최고 점수 저장하기
+function saveHighestScore(score) {
+    localStorage.setItem('highestScore', score);
+}
 
 // JSON 파일에서 데이터를 가져와서 초기화합니다.
 fetch('questions.json')
     .then(response => response.json())
     .then(data => {
         questions = data;
-        console.log("Questions loaded:", questions); // 디버깅을 위한 로그 추가
-        getRandomQuestion(); // JSON 데이터가 로드된 후 첫 질문을 출력
+        shuffleQuestions(); // 문제를 랜덤하게 섞음
+        getRandomQuestion(); // 첫 질문을 출력
     })
     .catch(error => {
         console.error("Error loading questions:", error);
     });
 
-function getRandomQuestion() {
-    const category = document.getElementById('category').value;
-    console.log("Selected category:", category); // 디버깅을 위한 로그 추가
-    let filteredQuestions = questions;
-
-    if (category !== 'all') {
-        filteredQuestions = questions.filter(q => q.category === category);
-        console.log("Filtered questions:", filteredQuestions); // 필터링된 질문들 로그
+function shuffleQuestions() {
+    for (let i = questions.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [questions[i], questions[j]] = [questions[j], questions[i]];
     }
+}
 
-    if (filteredQuestions.length === 0) {
-        console.error("No questions found for the selected category.");
-        document.getElementById("question").innerText = "No questions available for this category.";
+function getRandomQuestion() {
+    if (questions.length === 0) {
+        document.getElementById("question").innerText = "You've completed all the questions!";
         return;
     }
-
-    const randomIndex = Math.floor(Math.random() * filteredQuestions.length);
-    currentQuestion = filteredQuestions[randomIndex];
-
+    
+    currentQuestion = questions.pop(); // 문제를 하나씩 꺼냅니다.
+    
     document.getElementById("question").innerText = currentQuestion.question;
     document.getElementById("hint").style.display = 'none';
     document.getElementById("correct-answer").style.display = 'none';
@@ -48,46 +54,58 @@ function checkAnswer() {
     const userAnswer = answerInput.value.trim().toLowerCase();
     const correctAnswer = currentQuestion.answer.toLowerCase();
 
-    totalQuestions++;
     if (userAnswer === correctAnswer) {
         correctCount++;
+        currentStreak++;
         document.getElementById("feedback").innerText = "Correct!";
         document.getElementById("feedback").className = "correct";
         setTimeout(() => {
             document.getElementById("feedback").innerText = "";
             document.getElementById("feedback").className = "";
-            getRandomQuestion(); // 1초 후 다음 질문으로 넘어갑니다.
-        }, 1000); // 1초 동안 메시지가 표시된 후 사라지게 합니다.
+            getRandomQuestion(); // 다음 질문으로 넘어갑니다.
+        }, 1000);
     } else {
-        document.getElementById("feedback").innerText = "Incorrect, try again!";
+        document.getElementById("feedback").innerText = "Incorrect!";
         document.getElementById("feedback").className = "incorrect";
+        resetStreak(); // 연속 정답 수 초기화
         setTimeout(() => {
             document.getElementById("feedback").innerText = "";
             document.getElementById("feedback").className = "";
-        }, 1000); // 1초 동안 메시지가 표시된 후 사라지게 합니다.
+        }, 1000);
     }
 
-    answerInput.value = ''; // 틀렸을 경우 입력된 텍스트 삭제
+    answerInput.value = ''; // 입력된 텍스트 삭제
     answerInput.focus(); // 입력칸에 커서가 가도록 함
     updateStats();
 }
 
-function updateStats() {
-    const accuracy = totalQuestions > 0 ? (correctCount / totalQuestions) * 100 : 0;
+function resetStreak() {
+    if (currentStreak > highestScore) {
+        highestScore = currentStreak;
+        saveHighestScore(highestScore);
+    }
+    currentStreak = 0;
+    updateHighestScoreDisplay();
+}
 
+function updateStats() {
     document.getElementById("correct-count").innerText = correctCount;
-    document.getElementById("total-questions").innerText = totalQuestions;
-    document.getElementById("accuracy").innerText = accuracy.toFixed(2);
+}
+
+function updateHighestScoreDisplay() {
+    document.getElementById("highest-score").innerText = highestScore;
 }
 
 function showHint() {
     document.getElementById("hint").innerText = currentQuestion.hint;
     document.getElementById("hint").style.display = 'block';
+    resetStreak(); // 힌트를 사용하면 연속 정답 수 초기화
 }
 
 function showAnswer() {
     document.getElementById("correct-answer").innerText = currentQuestion.answer;
     document.getElementById("correct-answer").style.display = 'block';
+    resetStreak(); // 정답을 확인하면 연속 정답 수 초기화
 }
 
 // Enter 키를 눌렀을 때 checkAnswer 함수가 호출되도록 이벤트 추가
@@ -98,20 +116,9 @@ document.getElementById("answer-input").addEventListener("keydown", function(eve
     }
 });
 
-// 터치 이벤트를 활용한 새로고침 기능 구현
-document.addEventListener("touchstart", function(event) {
-    touchStartY = event.touches[0].clientY;
-});
-
-document.addEventListener("touchmove", function(event) {
-    const touchEndY = event.touches[0].clientY;
-    if (touchStartY < touchEndY - 10) { // 아래로 10px 이상 스크롤했을 때
-        document.getElementById("refresh-indicator").style.display = 'block'; // 새로고침 애니메이션 표시
-        setTimeout(() => {
-            location.reload(); // 페이지 새로고침
-        }, 500); // 0.5초 후 새로고침 실행
-    }
-});
+// 최고 점수를 로드하여 표시
+highestScore = getHighestScore();
+updateHighestScoreDisplay();
 
 // "앱 닫기" 버튼 기능 구현
 function closeApp() {
