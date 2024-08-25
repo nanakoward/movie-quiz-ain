@@ -419,23 +419,25 @@ function selectCategory() {
 let isRefreshing = false;
 
 function handleTouchStart(event) {
-    isRefreshing = window.scrollY === 0; // 스크롤 위치가 맨 위에 있을 때만 새로고침 가능
+    // 스크롤 위치가 맨 아래에 있을 때만 새로고침 가능
+    isRefreshing = (window.innerHeight + window.scrollY) >= document.body.offsetHeight;
 }
 
 function handleTouchMove(event) {
     if (isRefreshing) {
         const refreshIndicator = document.getElementById('refresh-indicator');
-        if (window.scrollY > 5) { // 더 짧은 거리에서 새로고침을 트리거
+        // 스크롤이 위로 올라가는 것을 감지하여 새로고침 트리거
+        if ((window.innerHeight + window.scrollY) < document.body.offsetHeight - 5) {
             refreshIndicator.style.display = 'block';
         }
     }
 }
 
-
 function handleTouchEnd(event) {
     const refreshIndicator = document.getElementById('refresh-indicator');
-    if (isRefreshing && window.scrollY > 5) { // 더 짧은 거리에서 새로고침을 트리거
-        location.reload();
+    // 스크롤이 위로 올라간 상태에서 손을 뗄 때 새로고침 실행
+    if (isRefreshing && (window.innerHeight + window.scrollY) < document.body.offsetHeight - 5) {
+        location.reload(); // 페이지 새로고침
     } else {
         refreshIndicator.style.display = 'none';
     }
