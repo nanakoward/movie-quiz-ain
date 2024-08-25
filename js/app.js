@@ -87,6 +87,12 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             getRandomQuestion(); // 질문을 하나 선택하여 표시
+
+            // 닉네임이 저장되지 않은 경우 닉네임 팝업 표시
+            nickname = getNickname();
+            if (!nickname) {
+                document.getElementById('nickname-popup').style.display = 'block';
+            }
         })
         .catch(error => {
             console.error("Error loading questions:", error);
