@@ -210,3 +210,14 @@ button:hover {
         transform: translate(0, 0); /* iOS에서 중앙으로 나타나는 문제 방지 */
     }
 }
+
+/* Show Answer 버튼의 투명도 설정 */
+#show-answer-btn {
+    opacity: 0.2; /* 전체 투명도 20ㅁㄴㅇㄹ% 설정 */
+}
+
+/* 힌트 본문 아래에 위치하도록 추가적인 스타일 설정 */
+#hint + #show-answer-btn {
+    display: block;
+    margin-top: 10px; /* 간격 조정 */
+}
