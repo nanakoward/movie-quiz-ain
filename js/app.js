@@ -60,6 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById("close-settings-button").addEventListener("click", closeSettings);
     document.getElementById("reset-button").addEventListener("click", confirmReset); // 초기화 버튼 리스너 추가
 
+    loadMasterMessageFromStorage(); // 로드 시 마스터 메시지를 로컬 저장소에서 불러오기
     updateAllCategoriesCount(); // All Categories의 질문 개수를 업데이트
     // 기존 카테고리의 All-Time Highest Streak를 확인하여 마스터 메시지 및 입력 비활성화 처리
     checkAllTimeHighestStreak();
@@ -79,8 +80,23 @@ function checkAllTimeHighestStreak() {
         displayMasterMessage();
         disableAnswerInputs();
         displayMasterInInput(); // 입력창에 마스터 메시지 표시
+        saveMasterMessageToStorage(); // 마스터 메시지를 로컬 저장소에 저장
     } else {
         enableAnswerInputs(); // 다른 카테고리에서 활성화
+    }
+}
+
+// 로컬 저장소에 마스터 메시지 저장
+function saveMasterMessageToStorage() {
+    localStorage.setItem(`masterMessage_${selectedCategory}`, `당신은 ${selectedCategory}의 마스터 짱짱맨 짱짱걸 당신은 미쳤어!`);
+}
+
+// 로컬 저장소에서 마스터 메시지 불러오기
+function loadMasterMessageFromStorage() {
+    const storedMessage = localStorage.getItem(`masterMessage_${selectedCategory}`);
+    if (storedMessage) {
+        displayMasterInInput(storedMessage);
+        disableAnswerInputs(); // 마스터 메시지가 있으면 입력창과 버튼을 비활성화
     }
 }
 
@@ -174,13 +190,11 @@ function getRandomQuestion() {
     showAnswerUsed = false; 
 }
 
-// 기존의 checkAnswer() 함수 내 마스터 메시지 출력 및 비활성화 부분을 제거
 function checkAnswer() {
     const answerInput = document.getElementById("answer-input");
     const userAnswer = answerInput.value.trim().toLowerCase();
     const correctAnswer = currentQuestion.answer.toLowerCase();
 
-    // 정답이 맞든 틀리든 show-answer-btn과 correct-answer의 스타일을 display:none으로 설정
     document.getElementById("show-answer-btn").style.display = 'none';
     document.getElementById("correct-answer").style.display = 'none';
 
@@ -189,10 +203,8 @@ function checkAnswer() {
         document.getElementById("feedback").innerText = `${nickname}, 정답!`;
         document.getElementById("feedback").className = "correct";
 
-        // Highest Streak 갱신
         highestScores[selectedCategory] = currentStreak;
 
-        // All-Time Highest Streak 갱신
         if (currentStreak > (allTimeHighestScores[selectedCategory] || 0)) {
             allTimeHighestScores[selectedCategory] = currentStreak;
             saveAllTimeHighestScores(allTimeHighestScores);
@@ -201,11 +213,11 @@ function checkAnswer() {
         saveHighestScores(highestScores);
         updateHighestScoreDisplay(); 
 
-        // All-Time Highest Streak가 질문 개수와 동일해진 경우 처리
-        if (allTimeHighestScores[selectedCategory] === originalQuestions.filter(q => q.category === selectedCategory).length) {
+        if (allTimeHighestScores[selectedCategory] === (selectedCategory === 'all' ? originalQuestions.length : originalQuestions.filter(q => q.category === selectedCategory).length)) {
             displayMasterMessage();
             disableAnswerInputs();
             displayMasterInInput(); // 입력창에 마스터 메시지 표시
+            saveMasterMessageToStorage(); // 마스터 메시지를 로컬 저장소에 저장
             return;
         }
 
@@ -215,21 +227,20 @@ function checkAnswer() {
             getRandomQuestion(); 
         }, 1000);
     } else {
-        // showAnswer()가 클릭되었으면 오답 처리 및 "다시 도전!!!!" 메시지 표시
         const feedbackMessage = showAnswerClicked ? '다시 도전!!!!' : `${nickname}, 까비..`;
         document.getElementById("feedback").innerText = feedbackMessage;
         document.getElementById("feedback").className = "incorrect";
 
-        resetStreak();  // 틀린 경우 streak 초기화
+        resetStreak(); 
         
-        resetQuestions();  // 질문 리스트를 초기화합니다.
+        resetQuestions();
 
         updateHighestScoreDisplay(); 
 
         setTimeout(() => {
             document.getElementById("feedback").innerText = "";
             document.getElementById("feedback").className = "";
-            getRandomQuestion();  // 초기화된 리스트에서 새로운 질문을 가져옵니다.
+            getRandomQuestion(); 
         }, 1000);
     }
 
@@ -319,6 +330,7 @@ function selectCategory() {
     updateHighestScoreDisplay(); 
     resetQuestions(); 
     checkAllTimeHighestStreak(); // 카테고리 변경 시 상태 확인
+    loadMasterMessageFromStorage(); // 카테고리 변경 시 로컬 저장소에서 마스터 메시지 불러오기
     getRandomQuestion(); 
 }
 
