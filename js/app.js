@@ -9,6 +9,9 @@ fetch('questions.json')
     .then(data => {
         questions = data;
         getRandomQuestion(); // JSON 데이터가 로드된 후 첫 질문을 출력
+    })
+    .catch(error => {
+        console.error("Error loading questions:", error);
     });
 
 function getRandomQuestion() {
@@ -17,6 +20,12 @@ function getRandomQuestion() {
 
     if (category !== 'all') {
         filteredQuestions = questions.filter(q => q.category === category);
+    }
+
+    if (filteredQuestions.length === 0) {
+        console.error("No questions found for the selected category.");
+        document.getElementById("question").innerText = "No questions available for this category.";
+        return;
     }
 
     const randomIndex = Math.floor(Math.random() * filteredQuestions.length);
