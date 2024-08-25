@@ -6,7 +6,6 @@
     <title>Movie Quiz</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="manifest" href="manifest.json">
-    <link rel="canonical" href="https://nanakoward.github.io/movie-quiz-ain/">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="Movie Quiz AIN">
 </head>
@@ -43,25 +42,17 @@
             <p>Total: <span id="total-questions">0</span></p>
             <p>Accuracy: <span id="accuracy">0</span>%</p>
         </div>
+
+        <!-- 새로고침 애니메이션 영역 -->
+        <div id="refresh-indicator" style="display:none;">
+            <p>Refreshing...</p>
+        </div>
+
+        <!-- 앱 닫기 버튼 -->
+        <button id="close-app" onclick="closeApp()">Close App</button>
     </div>
 
-    <!-- JS 파일 로드 -->
     <script src="js/app.js"></script>
-
-    <!-- Service Worker 등록 -->
-    <script>
-      if ('serviceWorker' in navigator) {
-          window.addEventListener('load', function() {
-              navigator.serviceWorker.register('/movie-quiz-ain/service-worker.js')
-              .then(function(registration) {
-                  console.log('Service Worker registered with scope:', registration.scope);
-              }, function(error) {
-                  console.log('Service Worker registration failed:', error);
-              });
-          });
-      }
-  </script>
-  
 
 </body>
 </html>

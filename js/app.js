@@ -91,7 +91,7 @@ function showAnswer() {
 }
 
 // Enter 키를 눌렀을 때 checkAnswer 함수가 호출되도록 이벤트 추가
-document.getElementById("answer-input").addEventListener("keypress", function(event) {
+document.getElementById("answer-input").addEventListener("keydown", function(event) {
     if (event.key === "Enter" || event.key === "Return") {
         event.preventDefault(); // 기본 Enter 키 동작 방지 (폼 제출 방지)
         checkAnswer(); // 정답 확인 함수 호출
@@ -105,14 +105,15 @@ document.addEventListener("touchstart", function(event) {
 
 document.addEventListener("touchmove", function(event) {
     const touchEndY = event.touches[0].clientY;
-    if (touchStartY < touchEndY - 10) { // 아래로 100px 이상 스크롤했을 때
-        location.reload(); // 페이지 새로고침
+    if (touchStartY < touchEndY - 10) { // 아래로 10px 이상 스크롤했을 때
+        document.getElementById("refresh-indicator").style.display = 'block'; // 새로고침 애니메이션 표시
+        setTimeout(() => {
+            location.reload(); // 페이지 새로고침
+        }, 500); // 0.5초 후 새로고침 실행
     }
 });
 
 // "앱 닫기" 버튼 기능 구현
 function closeApp() {
-    if (window.confirm("Do you really want to exit?")) {
-        window.close(); // 윈도우 닫기 시도 (모바일 브라우저에서는 작동하지 않을 수 있음)
-    }
+    alert("To close the app, use your device's navigation buttons.");
 }
