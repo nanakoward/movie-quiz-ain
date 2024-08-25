@@ -60,7 +60,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const totalQuestionsInCategory = originalQuestions.filter(q => q.category.includes(selectedCategory)).length;
     const currentAllTimeHighestStreak = allTimeHighestScores[selectedCategory] || 0;
 
-    if (currentAllTimeHighestStreak === totalQuestionsInCategory) {
+    if (currentAllTimeHighestStreak < totalQuestionsInCategory) {
+        enableAnswerInputs(); // 최고 연속 정답 수가 질문 개수보다 작을 때만 입력창과 제출 버튼 활성화
+    } else {
         checkAllTimeHighestStreak(); // 최고 연속 정답 수가 질문 개수와 같을 때만 실행
     }
 
@@ -77,6 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById("close-settings-button").addEventListener("click", closeSettings);
     document.getElementById("reset-button").addEventListener("click", confirmReset); // 초기화 버튼 리스너 추가
 });
+
 
 
 // function updateAllCategoriesCount() {
