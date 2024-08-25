@@ -337,6 +337,9 @@ function selectCategory() {
     updateHighestScoreDisplay();
     resetQuestions();
 
+    // 피드백 초기화를 가장 먼저 호출하여 즉시 반영
+    resetFeedback();
+
     // 선택된 카테고리의 All-Time Highest Streak가 해당 카테고리의 질문 개수 이상인지 확인
     const totalQuestionsInCategory = originalQuestions.filter(q => q.category.includes(selectedCategory)).length;
     const currentAllTimeHighestStreak = allTimeHighestScores[selectedCategory] || 0;
@@ -346,7 +349,6 @@ function selectCategory() {
     } else {
         enableAnswerInputs(); // 질문 개수보다 작은 경우 활성화
         getRandomQuestion();
-        resetFeedback();
     }
 }
 
