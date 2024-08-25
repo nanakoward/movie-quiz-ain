@@ -143,3 +143,30 @@ button:hover {
         color: #ffffff;
     }
 }
+
+#feedback.correct {
+    color: green;
+    font-weight: bold;
+    animation: correctAnimation 1s ease-in-out;
+    background-color: #e0ffe0; /* Correct answer의 배경색 */
+}
+
+#feedback.incorrect {
+    color: red;
+    font-weight: bold;
+    animation: incorrectAnimation 1s ease-in-out;
+    background-color: #ffe0e0; /* Incorrect answer의 배경색 */
+}
+
+@keyframes correctAnimation {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1) rotate(3deg); }
+    100% { transform: scale(1); }
+}
+
+@keyframes incorrectAnimation {
+    0% { transform: scale(1); }
+    50% { transform: scale(0.9) rotate(-3deg); }
+    100% { transform: scale(1); }
+}
+

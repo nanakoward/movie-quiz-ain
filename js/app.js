@@ -41,6 +41,24 @@ function getRandomQuestion() {
     document.getElementById("feedback").innerText = '';
 }
 
+// function checkAnswer() {
+//     const userAnswer = document.getElementById("answer-input").value.trim().toLowerCase();
+//     const correctAnswer = currentQuestion.answer.toLowerCase();
+
+//     totalQuestions++;
+//     if (userAnswer === correctAnswer) {
+//         correctCount++;
+//         document.getElementById("feedback").innerText = "Correct!";
+//         document.getElementById("feedback").className = "correct";
+//         setTimeout(() => getRandomQuestion(), 1000); // 1초 후 다음 질문으로 넘어갑니다.
+//     } else {
+//         document.getElementById("feedback").innerText = "Incorrect, try again!";
+//         document.getElementById("feedback").className = "incorrect";
+//     }
+
+//     updateStats();
+// }
+
 function checkAnswer() {
     const userAnswer = document.getElementById("answer-input").value.trim().toLowerCase();
     const correctAnswer = currentQuestion.answer.toLowerCase();
@@ -50,14 +68,23 @@ function checkAnswer() {
         correctCount++;
         document.getElementById("feedback").innerText = "Correct!";
         document.getElementById("feedback").className = "correct";
-        setTimeout(() => getRandomQuestion(), 1000); // 1초 후 다음 질문으로 넘어갑니다.
+        setTimeout(() => {
+            document.getElementById("feedback").innerText = "";
+            document.getElementById("feedback").className = "";
+            getRandomQuestion(); // 1초 후 다음 질문으로 넘어갑니다.
+        }, 1000); // 1초 동안 메시지가 표시된 후 사라지게 합니다.
     } else {
         document.getElementById("feedback").innerText = "Incorrect, try again!";
         document.getElementById("feedback").className = "incorrect";
+        setTimeout(() => {
+            document.getElementById("feedback").innerText = "";
+            document.getElementById("feedback").className = "";
+        }, 1000); // 1초 동안 메시지가 표시된 후 사라지게 합니다.
     }
 
     updateStats();
 }
+
 
 function updateStats() {
     const accuracy = totalQuestions > 0 ? (correctCount / totalQuestions) * 100 : 0;
