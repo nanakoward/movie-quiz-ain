@@ -203,3 +203,37 @@ updateHighestScoreDisplay();
 function closeApp() {
     alert("To close the app, use your device's navigation buttons.");
 }
+
+// 새로고침 기능 추가
+let isRefreshing = false;
+
+function handleTouchStart(event) {
+    if (window.scrollY === 0) {
+        isRefreshing = true;
+    }
+}
+
+function handleTouchMove(event) {
+    if (isRefreshing) {
+        const refreshIndicator = document.getElementById('refresh-indicator');
+        if (window.scrollY > 10) {
+            refreshIndicator.style.display = 'block';
+        }
+    }
+}
+
+function handleTouchEnd(event) {
+    if (isRefreshing && window.scrollY > 10) {
+        location.reload();
+    } else {
+        const refreshIndicator = document.getElementById('refresh-indicator');
+        refreshIndicator.style.display = 'none';
+    }
+    isRefreshing = false;
+}
+
+// 이벤트 리스너 추가
+window.addEventListener('touchstart', handleTouchStart);
+window.addEventListener('touchmove', handleTouchMove);
+window.addEventListener('touchend', handleTouchEnd);
+
