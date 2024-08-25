@@ -94,6 +94,7 @@ function updateHighestScoreDisplay() {
 function showHint() {
     document.getElementById("hint").innerText = currentQuestion.hint;
     document.getElementById("hint").style.display = 'block';
+    document.getElementById("show-answer-btn").style.display = 'block'; // Show Answer 버튼 표시
     resetStreak(); // 힌트를 사용하면 연속 정답 수 초기화
 }
 
@@ -103,6 +104,7 @@ function showAnswer() {
     showAnswerUsed = true; // Show Answer를 사용한 경우 연속 정답에서 제외
     resetStreak(); // 정답을 확인하면 연속 정답 수 초기화
 }
+
 
 // Enter 키를 눌렀을 때 checkAnswer 함수가 호출되도록 이벤트 추가
 document.getElementById("answer-input").addEventListener("keydown", function(event) {

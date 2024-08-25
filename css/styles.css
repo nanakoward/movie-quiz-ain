@@ -213,10 +213,10 @@ button:hover {
 
 /* Show Answer 버튼의 투명도 설정 */
 #show-answer-btn {
-    opacity: 0.2; /* 전체 투명도 20ㅁㄴㅇㄹ% 설정 */
+    opacity: 0.2; /* 전체 투명도 20% 설정 */
 }
 
-/* 힌트 본문 아래에 위치하도록 추가적인 스타일 설정 */
+/* Hint 본문 아래에 위치하도록 조정 */
 #hint + #show-answer-btn {
     display: block;
     margin-top: 10px; /* 간격 조정 */
