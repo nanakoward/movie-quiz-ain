@@ -211,7 +211,6 @@ window.addEventListener('touchstart', handleTouchStart);
 window.addEventListener('touchmove', handleTouchMove);
 window.addEventListener('touchend', handleTouchEnd);
 
-
 // Enter 키를 눌렀을 때 checkAnswer 함수가 호출되도록 이벤트 추가
 document.getElementById("answer-input").addEventListener("keydown", function(event) {
     if (event.key === "Enter" || event.key === "Return") {
