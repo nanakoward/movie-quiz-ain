@@ -140,12 +140,16 @@ function checkAnswer() {
         document.getElementById("feedback").innerText = `${nickname}, 정답!`;
         document.getElementById("feedback").className = "correct";
 
-        if (currentStreak > (highestScores[selectedCategory] || 0)) {
-            highestScores[selectedCategory] = currentStreak;
-            saveHighestScores(highestScores);
-            updateAllTimeHighestScores(selectedCategory, currentStreak);
+        // Highest Streak 갱신
+        highestScores[selectedCategory] = currentStreak;
+
+        // All-Time Highest Streak 갱신
+        if (currentStreak > (allTimeHighestScores[selectedCategory] || 0)) {
+            allTimeHighestScores[selectedCategory] = currentStreak;
+            saveAllTimeHighestScores(allTimeHighestScores);
         }
 
+        saveHighestScores(highestScores);
         updateHighestScoreDisplay(); 
 
         if (questions.length === 0) {
@@ -162,7 +166,8 @@ function checkAnswer() {
     } else {
         document.getElementById("feedback").innerText = `${nickname}, 까비..`;
         document.getElementById("feedback").className = "incorrect";
-        resetStreak(); 
+
+        resetStreak();  // 틀린 경우 streak 초기화
         
         resetQuestions();  // 질문 리스트를 초기화합니다.
 
@@ -178,6 +183,7 @@ function checkAnswer() {
     answerInput.value = ''; 
     answerInput.focus(); 
 }
+
 
 function getRandomQuestion() {
     if (questions.length === 0) {
