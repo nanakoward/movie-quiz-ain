@@ -283,7 +283,7 @@ function disableAnswerInputs() {
     answerButton.disabled = true; // 버튼 비활성화
     answerButton.classList.add("disabled-button"); // 비활성화 스타일 추가
 
-    answerInput.disabled = true; // 입력창 비활성화
+    // answerInput.disabled = true; // 입력창 비활성화
     answerInput.classList.add("disabled-input"); // 비활성화 스타일 추가
 }
 
