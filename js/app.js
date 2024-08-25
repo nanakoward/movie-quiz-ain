@@ -46,6 +46,24 @@ function showMotivationMessage() {
     }, 2000);
 }
 
+function saveNicknameFromSettings() {
+    const newNickname = document.getElementById('settings-nickname-input').value.trim();
+    if (newNickname) {
+        nickname = newNickname;
+        localStorage.setItem('nickname', nickname);
+        closeSettings();
+    }
+}
+
+function closeSettings() {
+    document.getElementById('settings-popup').style.display = 'none';
+}
+
+function openSettings() {
+    document.getElementById('settings-nickname-input').value = nickname; // 현재 닉네임을 입력 필드에 표시
+    document.getElementById('settings-popup').style.display = 'block';
+}
+
 // JSON 파일에서 데이터를 가져와서 초기화합니다.
 fetch('questions.json')
     .then(response => response.json())
@@ -165,10 +183,6 @@ function selectCategory() {
     updateHighestScoreDisplay(); // 선택한 카테고리에 따라 최고 점수를 업데이트
     shuffleQuestions(); // 선택한 카테고리에 맞게 질문을 섞음
     getRandomQuestion(); // 첫 질문을 출력
-}
-
-function openSettings() {
-    document.getElementById('nickname-popup').style.display = 'block';
 }
 
 // Enter 키를 눌렀을 때 checkAnswer 함수가 호출되도록 이벤트 추가

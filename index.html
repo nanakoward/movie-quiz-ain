@@ -12,11 +12,21 @@
 <body>
 
     <!-- 닉네임 설정 팝업 -->
-    <div id="nickname-popup" class="popup">
+    <div id="nickname-popup" class="popup" style="display:none;">
         <div class="popup-content">
             <h2>Enter your nickname:</h2>
             <input type="text" id="nickname-input" placeholder="Your nickname">
             <button onclick="saveNickname()">Submit</button>
+        </div>
+    </div>
+
+    <!-- 닉네임 설정 팝업 (Settings) -->
+    <div id="settings-popup" class="popup" style="display:none;">
+        <div class="popup-content">
+            <h2>Edit your nickname:</h2>
+            <input type="text" id="settings-nickname-input" placeholder="Your nickname">
+            <button onclick="saveNicknameFromSettings()">Save</button>
+            <button onclick="closeSettings()">Close</button>
         </div>
     </div>
 
