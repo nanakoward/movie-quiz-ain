@@ -311,10 +311,15 @@ answerInput.focus(); // 입력창에 포커스
 // 불꽃놀이 효과 함수
 function triggerFireworks() {
     const container = document.getElementById('fireworks-container');
+    const colors = ['red', 'yellow', 'blue', 'green', 'orange', 'purple', 'pink']; // 다양한 색상 배열
 
     for (let i = 0; i < 20; i++) { // 불꽃의 개수
         const firework = document.createElement('div');
         firework.className = 'firework';
+
+        // 무작위 색상 선택
+        const randomColor = colors[Math.floor(Math.random() * colors.length)];
+        firework.style.background = randomColor;
 
         // 불꽃의 초기 위치 랜덤 설정
         firework.style.left = `${Math.random() * 100}%`;
@@ -325,9 +330,10 @@ function triggerFireworks() {
         // 일정 시간이 지난 후 불꽃 제거
         setTimeout(() => {
             firework.remove();
-        }, 1000); // 애니메이션 길이와 동일하게 설정
+        }, 2000); // 애니메이션 길이와 동일하게 설정
     }
 }
+
 
 
 // 버튼 비활성화 및 스타일 변경 함수

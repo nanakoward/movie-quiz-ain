@@ -227,8 +227,8 @@ button:hover {
     font-weight: bold;
 }
 
-  /* 불꽃놀이 컨테이너 설정 */
-  #fireworks-container {
+/* 불꽃놀이 컨테이너 설정 */
+#fireworks-container {
     position: fixed;
     top: 0;
     left: 0;
@@ -243,9 +243,8 @@ button:hover {
     position: absolute;
     width: 5px;
     height: 5px;
-    background: yellow;
     border-radius: 50%;
-    animation: explode 1s ease-out forwards;
+    animation: explode 2s ease-out forwards;
   }
 
   @keyframes explode {
