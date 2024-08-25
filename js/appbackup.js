@@ -1,4 +1,3 @@
-javascript
 let originalQuestions = []; // 초기 질문 데이터를 저장하는 배열
 let questions = []; // JSON 데이터를 로드하여 저장할 변수
 let currentQuestion = null;
@@ -66,39 +65,8 @@ function closeSettings() {
 }
 
 function openSettings() {
-    const settingsPopup = document.getElementById('settings-popup');
-    settingsPopup.innerHTML = `
-        <h2>Change your nickname:</h2>
-        <input type="text" id="settings-nickname-input" placeholder="Your new nickname" value="${nickname}">
-        <button id="save-settings-button">Save</button>
-        <button id="close-settings-button">Close</button>
-        <button id="reset-button">초기화</button>
-    `;
+    document.getElementById('settings-nickname-input').value = nickname; 
     document.getElementById('settings-popup').style.display = 'block';
-
-    document.getElementById("reset-button").addEventListener("click", confirmReset);
-}
-
-function resetAllData() {
-    localStorage.clear(); // 로컬 스토리지 전체 초기화
-    location.reload(); // 페이지 새로고침
-}
-
-function confirmReset() {
-    const settingsPopup = document.getElementById('settings-popup');
-    settingsPopup.innerHTML = `
-        <h2 style="color: red;">정말 초기화 하시겠습니까?</h2>
-        <button id="confirm-reset-yes">네</button>
-        <button id="confirm-reset-no">아니오</button>
-    `;
-
-    document.getElementById("confirm-reset-yes").addEventListener("click", () => {
-        resetAllData(); // '네' 선택 시 초기화
-    });
-
-    document.getElementById("confirm-reset-no").addEventListener("click", () => {
-        closeSettings(); // '아니오' 선택 시 팝업 닫기
-    });
 }
 
 // JSON 파일에서 데이터를 가져와서 초기화합니다.
@@ -174,7 +142,6 @@ function checkAnswer() {
             updateAllTimeHighestScores(selectedCategory, currentStreak);
         }
 
-        update
         updateHighestScoreDisplay(); 
 
         setTimeout(() => {
@@ -285,4 +252,16 @@ updateHighestScoreDisplay();
 
 function closeApp() {
     alert("To close the app, use your device's navigation buttons.");
+}
+
+function resetAllData() {
+    localStorage.clear(); // 로컬 스토리지 전체 초기화
+    location.reload(); // 페이지 새로고침
+}
+
+function confirmReset() {
+    const confirmation = confirm("정말 초기화 하겠습니까?");
+    if (confirmation) {
+        resetAllData(); // '네' 선택 시 초기화
+    }
 }
