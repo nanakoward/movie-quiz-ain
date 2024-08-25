@@ -1,17 +1,18 @@
 let questions = []; // JSON 데이터를 로드하여 저장할 변수
 let currentQuestion = null;
-let highestScore = 0; // 최고 점수
+let highestScores = {}; // 카테고리별 최고 점수 저장 객체
 let currentStreak = 0; // 현재 연속 정답 수
 let showAnswerUsed = false; // Show Answer 버튼 사용 여부
+let selectedCategory = 'all'; // 기본 선택 카테고리
 
 // 로컬 저장소에서 최고 점수 가져오기
-function getHighestScore() {
-    return parseInt(localStorage.getItem('highestScore')) || 0;
+function getHighestScores() {
+    return JSON.parse(localStorage.getItem('highestScores')) || {};
 }
 
 // 로컬 저장소에 최고 점수 저장하기
-function saveHighestScore(score) {
-    localStorage.setItem('highestScore', score);
+function saveHighestScores(scores) {
+    localStorage.setItem('highestScores', JSON.stringify(scores));
 }
 
 // JSON 파일에서 데이터를 가져와서 초기화합니다.
@@ -19,6 +20,7 @@ fetch('questions.json')
     .then(response => response.json())
     .then(data => {
         questions = data;
+        highestScores = getHighestScores();
         shuffleQuestions(); // 문제를 랜덤하게 섞음
         getRandomQuestion(); // 첫 질문을 출력
     })
@@ -79,16 +81,16 @@ function checkAnswer() {
 }
 
 function resetStreak() {
-    if (currentStreak > highestScore) {
-        highestScore = currentStreak;
-        saveHighestScore(highestScore);
+    if (currentStreak > (highestScores[selectedCategory] || 0)) {
+        highestScores[selectedCategory] = currentStreak;
+        saveHighestScores(highestScores);
     }
     currentStreak = 0;
     updateHighestScoreDisplay();
 }
 
 function updateHighestScoreDisplay() {
-    document.getElementById("highest-score").innerText = highestScore;
+    document.getElementById("highest-score").innerText = `${selectedCategory} Highest Streak: ${highestScores[selectedCategory] || 0}`;
 }
 
 function showHint() {
@@ -105,6 +107,12 @@ function showAnswer() {
     resetStreak(); // 정답을 확인하면 연속 정답 수 초기화
 }
 
+function selectCategory() {
+    selectedCategory = document.getElementById('category').value;
+    updateHighestScoreDisplay(); // 선택한 카테고리에 따라 최고 점수를 업데이트
+    shuffleQuestions(); // 선택한 카테고리에 맞게 질문을 섞음
+    getRandomQuestion(); // 첫 질문을 출력
+}
 
 // Enter 키를 눌렀을 때 checkAnswer 함수가 호출되도록 이벤트 추가
 document.getElementById("answer-input").addEventListener("keydown", function(event) {
@@ -115,7 +123,7 @@ document.getElementById("answer-input").addEventListener("keydown", function(eve
 });
 
 // 최고 점수를 로드하여 표시
-highestScore = getHighestScore();
+highestScores = getHighestScores();
 updateHighestScoreDisplay();
 
 // "앱 닫기" 버튼 기능 구현

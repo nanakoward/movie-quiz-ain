@@ -41,7 +41,11 @@ button {
     color: white;
     cursor: pointer;
     margin: 5px;
+    display: block; /* 버튼을 블록으로 표시하여 가운데 정렬 가능 */
+    margin-left: auto;
+    margin-right: auto;
 }
+
 
 button:hover {
     background-color: #0056b3;

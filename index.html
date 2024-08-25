@@ -15,12 +15,17 @@
         <h1>Movie Quiz</h1>
 
         <label for="category">Select Category:</label>
-        <select id="category" onchange="getRandomQuestion()">
+        <select id="category" onchange="selectCategory()">
             <option value="all">All Categories</option>
             <option value="film_history">Film History</option>
             <option value="film_theory">Film Theory</option>
             <option value="interview_questions">Interview Questions</option>
         </select>
+
+        <!-- 최고 연속 정답 수 표시 영역 -->
+        <div id="stats">
+            <p id="highest-score">Highest Streak: 0</p>
+        </div>
 
         <div id="question-container">
             <p id="question">Your question will appear here</p>
@@ -36,11 +41,6 @@
         <!-- Show Answer 버튼을 힌트 본문 아래에 위치시키고 기본적으로 숨김 -->
         <button id="show-answer-btn" onclick="showAnswer()" style="display:none;">Show Answer</button>
         <p id="correct-answer" style="display:none;">The correct answer will be shown here</p>
-
-        <!-- 최고 연속 정답 수 표시 영역 -->
-        <div id="stats">
-            <p>Highest Streak: <span id="highest-score">0</span></p>
-        </div>
 
         <!-- 새로고침 애니메이션 영역 -->
         <div id="refresh-indicator" style="display:none;">
