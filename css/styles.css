@@ -209,3 +209,8 @@ button:hover {
     color: white;
 }
 
+.disabled-button {
+    background-color: #cccccc; /* 비활성화된 상태의 버튼 색상 */
+    color: #666666; /* 비활성화된 상태의 텍스트 색상 */
+    cursor: not-allowed; /* 비활성화된 상태의 커서 모양 */
+}

@@ -153,8 +153,9 @@ function checkAnswer() {
         updateHighestScoreDisplay(); 
 
         if (questions.length === 0) {
-            // 모든 질문을 맞춘 경우 마스터 메시지 출력
+            // 모든 질문을 맞춘 경우 마스터 메시지 출력 및 버튼 비활성화
             document.getElementById("question").innerText = `당신은 ${selectedCategory}의 마스터 짱짱맨 짱짱걸 당신은 미쳤어!`;
+            disableAnswerButton();
             return;
         }
 
@@ -183,6 +184,15 @@ function checkAnswer() {
     answerInput.value = ''; 
     answerInput.focus(); 
 }
+
+// 버튼 비활성화 및 스타일 변경 함수
+function disableAnswerButton() {
+    const answerButton = document.getElementById("answer-button"); // checkAnswer()가 연결된 버튼
+    answerButton.disabled = true; // 버튼 비활성화
+    answerButton.classList.add("disabled-button"); // 비활성화 스타일 추가
+}
+
+
 
 
 function getRandomQuestion() {
