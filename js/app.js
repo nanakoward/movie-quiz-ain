@@ -226,9 +226,9 @@ function checkAnswer() {
 
         if (allTimeHighestScores[selectedCategory] === originalQuestions.filter(q => q.category.includes(selectedCategory)).length) {
             displayMasterMessage();
-            disableAnswerInputs();
-            displayMasterInInput(); // 입력창에 마스터 메시지 표시
+            // disableAnswerInputs();
             saveMasterMessageToStorage(); // 마스터 메시지를 로컬 저장소에 저장
+            displayMasterInInput(); // 입력창에 마스터 메시지 표시
             return;
         }
         
