@@ -220,9 +220,9 @@ function getRandomQuestion() {
     document.getElementById("answer-input").value = '';
     
     // 피드백 초기화
-    const feedbackElement = document.getElementById("feedback");
-    feedbackElement.innerText = '';
-    feedbackElement.className = ''; // 클래스 초기화
+    // const feedbackElement = document.getElementById("feedback");
+    // feedbackElement.innerText = '';
+    // feedbackElement.className = ''; // 클래스 초기화
     
     const imageElement = document.getElementById("question-image");
     if (currentQuestion.image_url) {
@@ -283,9 +283,9 @@ setTimeout(() => {
 }, 1000);
 } else {
 // 오답 처리
-const feedbackMessage = showAnswerClicked ? '다시 도전!!!!' : `${nickname}, 까비..`;
-document.getElementById("feedback").innerText = feedbackMessage;
-document.getElementById("feedback").className = "incorrect";
+// const feedbackMessage = showAnswerClicked ? '다시 도전!!!!' : `${nickname}, 까비..`;
+// document.getElementById("feedback").innerText = feedbackMessage;
+// document.getElementById("feedback").className = "incorrect";
 
 resetStreak(); // 연속 정답 수 초기화
 resetQuestions();
@@ -453,29 +453,22 @@ function selectCategory() {
 let isRefreshing = false;
 
 function handleTouchStart(event) {
-    isRefreshing = window.scrollY === 0;
+    isRefreshing = window.scrollY === 0; // 스크롤 위치가 맨 위에 있을 때만 새로고침 가능
 }
 
 function handleTouchMove(event) {
     if (isRefreshing) {
         const refreshIndicator = document.getElementById('refresh-indicator');
-        if (window.scrollY > 10) {
+        if (window.scrollY > 5) { // 더 짧은 거리에서 새로고침을 트리거
             refreshIndicator.style.display = 'block';
         }
     }
 }
 
-// function selectCategory() {
-//     selectedCategory = document.getElementById('category').value;
-//     updateHighestScoreDisplay();
-//     resetQuestions();
-//     checkAllTimeHighestStreak(); // 카테고리 변경 시 상태 확인
-//     getRandomQuestion();
-// }
 
 function handleTouchEnd(event) {
     const refreshIndicator = document.getElementById('refresh-indicator');
-    if (isRefreshing && window.scrollY > 10) {
+    if (isRefreshing && window.scrollY > 5) { // 더 짧은 거리에서 새로고침을 트리거
         location.reload();
     } else {
         refreshIndicator.style.display = 'none';
