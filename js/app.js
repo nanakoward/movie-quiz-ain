@@ -2,6 +2,7 @@ let questions = []; // JSON 데이터를 로드하여 저장할 변수
 let currentQuestion = null;
 let correctCount = 0; // 맞힌 문제 수
 let totalQuestions = 0; // 전체 문제 수
+let touchStartY = 0;
 
 // JSON 파일에서 데이터를 가져와서 초기화합니다.
 fetch('questions.json')
@@ -91,8 +92,27 @@ function showAnswer() {
 
 // Enter 키를 눌렀을 때 checkAnswer 함수가 호출되도록 이벤트 추가
 document.getElementById("answer-input").addEventListener("keypress", function(event) {
-    if (event.key === "Enter") {
+    if (event.key === "Enter" || event.key === "Return") {
         event.preventDefault(); // 기본 Enter 키 동작 방지 (폼 제출 방지)
         checkAnswer(); // 정답 확인 함수 호출
     }
 });
+
+// 터치 이벤트를 활용한 새로고침 기능 구현
+document.addEventListener("touchstart", function(event) {
+    touchStartY = event.touches[0].clientY;
+});
+
+document.addEventListener("touchmove", function(event) {
+    const touchEndY = event.touches[0].clientY;
+    if (touchStartY < touchEndY - 100) { // 아래로 100px 이상 스크롤했을 때
+        location.reload(); // 페이지 새로고침
+    }
+});
+
+// "앱 닫기" 버튼 기능 구현
+function closeApp() {
+    if (window.confirm("Do you really want to exit?")) {
+        window.close(); // 윈도우 닫기 시도 (모바일 브라우저에서는 작동하지 않을 수 있음)
+    }
+}
