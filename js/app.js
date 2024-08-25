@@ -5,7 +5,7 @@ let highestScores = {}; // 카테고리별 현재 최고 점수 저장 객체
 let allTimeHighestScores = {}; // 카테고리별 가장 높았던 최고 점수 저장 객체
 let currentStreak = 0; // 현재 연속 정답 수
 let showAnswerUsed = false; // Show Answer 버튼 사용 여부
-let selectedCategory = "all_categories"; // 기본 선택 카테고리
+let selectedCategory = 'all_categories'; // 기본 선택 카테고리
 let nickname = ''; // 사용자 닉네임
 let showAnswerClicked = false; // Show Answer 버튼 클릭 여부
 
@@ -49,6 +49,15 @@ function saveNicknameFromSettings() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    // 초기 설정: 기본 카테고리를 'all_categories'로 설정
+    selectedCategory = 'all_categories'; 
+
+    // 관련된 초기 작업들 실행
+    updateHighestScoreDisplay(); // 최고 점수 표시
+    resetQuestions(); // 카테고리에 맞는 질문들로 초기화
+    checkAllTimeHighestStreak(); // 최고 연속 정답 수 확인
+    getRandomQuestion(); // 질문을 하나 선택하여 표시
+
     document.getElementById('settings-nickname-input').addEventListener('keydown', function(event) {
         if (event.key === 'Enter' || event.key === 'Return') {
             event.preventDefault(); 
@@ -354,13 +363,13 @@ function handleTouchMove(event) {
     }
 }
 
-function selectCategory() {
-    selectedCategory = document.getElementById('category').value;
-    updateHighestScoreDisplay();
-    resetQuestions();
-    checkAllTimeHighestStreak(); // 카테고리 변경 시 상태 확인
-    getRandomQuestion();
-}
+// function selectCategory() {
+//     selectedCategory = document.getElementById('category').value;
+//     updateHighestScoreDisplay();
+//     resetQuestions();
+//     checkAllTimeHighestStreak(); // 카테고리 변경 시 상태 확인
+//     getRandomQuestion();
+// }
 
 function handleTouchEnd(event) {
     const refreshIndicator = document.getElementById('refresh-indicator');
