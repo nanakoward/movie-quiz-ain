@@ -60,17 +60,24 @@
         </div>
     </div>
 
-    <!-- 설정 팝업 -->
     <div id="settings-popup" class="popup" style="display:none;">
-        <div class="popup-content">
-            <h2>Change your nickname:</h2>
-            <input type="text" id="settings-nickname-input" placeholder="Your new nickname">
-            <button id="save-settings-button">Save</button>
-            <button id="close-settings-button">Close</button>
-            <!-- 초기화 버튼 추가 -->
-            <button id="reset-button">초기화</button>
-        </div>
-    </div>
+      <div class="popup-content">
+          <h2 id="settings-title">Change your nickname:</h2>
+          <input type="text" id="settings-nickname-input" placeholder="Your new nickname">
+          <div id="settings-buttons">
+              <button id="save-settings-button">Save</button>
+              <button id="close-settings-button">Close</button>
+              <button id="reset-button">초기화</button>
+          </div>
+          <!-- 초기화 확인 메시지 -->
+          <div id="reset-confirmation" style="display:none;">
+              <p style="color:red;">정말 초기화 하겠습니까?</p>
+              <button id="confirm-reset-button">네</button>
+              <button id="cancel-reset-button">아니오</button>
+          </div>
+      </div>
+  </div>
+  
 
     <script src="js/app.js"></script>
 </body>
