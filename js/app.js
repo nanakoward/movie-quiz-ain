@@ -462,6 +462,7 @@ function selectCategory() {
     }
 }
 
+
 function playRandomSound() {
     // 오디오 요소의 ID를 배열로 저장
     const sounds = ['sound1', 'sound2'];
