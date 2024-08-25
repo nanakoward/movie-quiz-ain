@@ -131,6 +131,9 @@ function checkAnswer() {
         resetStreak();
     }
 
+    // 정답이 맞든 틀리든 correct-answer의 스타일을 display:none으로 설정
+    document.getElementById("correct-answer").style.display = 'none';
+
     if (userAnswer === correctAnswer) {
         currentStreak++;
         document.getElementById("feedback").innerText = `${nickname}, 정답!`;
@@ -167,6 +170,7 @@ function checkAnswer() {
     answerInput.value = ''; 
     answerInput.focus(); 
 }
+
 
 function resetStreak() {
     currentStreak = 0;
