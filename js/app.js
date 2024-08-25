@@ -194,13 +194,23 @@ function getRandomQuestion() {
     document.getElementById("feedback").innerText = '';
 
         // 이미지가 있는 경우에만 표시
+        // const imageElement = document.getElementById("question-image");
+        // if (currentQuestion.image_url) {
+        //     imageElement.src = currentQuestion.image_url;
+        //     imageElement.style.display = 'block';
+        // } else {
+        //     imageElement.style.display = 'none';
+        // }    
+
         const imageElement = document.getElementById("question-image");
-        if (currentQuestion.image_url) {
-            imageElement.src = currentQuestion.image_url;
-            imageElement.style.display = 'block';
-        } else {
-            imageElement.style.display = 'none';
-        }    
+if (currentQuestion.image_url) {
+    console.log("Image URL:", currentQuestion.image_url); // URL 확인을 위해 콘솔에 출력
+    imageElement.src = currentQuestion.image_url;
+    imageElement.style.display = 'block';
+} else {
+    imageElement.style.display = 'none';
+}
+
 
     document.getElementById("answer-input").focus(); 
     showAnswerUsed = false; 
