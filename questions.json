@@ -16,5 +16,17 @@
         "answer": "1929",
         "hint": "It was in the 1920s.",
         "category": "film_history"
+    },
+    {
+        "question": "Which film won the first Academy Award for Best Picture?",
+        "answer": "Wings",
+        "hint": "It is a 1927 silent war film.",
+        "category": "film_history"
+    },
+    {
+        "question": "What is the highest-grossing film of all time?",
+        "answer": "Avatar",
+        "hint": "Directed by James Cameron.",
+        "category": "film_theory"
     }
 ]
