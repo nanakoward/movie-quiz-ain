@@ -60,9 +60,16 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById("close-settings-button").addEventListener("click", closeSettings);
     document.getElementById("reset-button").addEventListener("click", confirmReset); // 초기화 버튼 리스너 추가
 
+    updateAllCategoriesCount(); // All Categories의 질문 개수를 업데이트
     // 기존 카테고리의 All-Time Highest Streak를 확인하여 마스터 메시지 및 입력 비활성화 처리
     checkAllTimeHighestStreak();
 });
+
+function updateAllCategoriesCount() {
+    const totalQuestions = originalQuestions.length; // 모든 카테고리의 질문 개수를 합산
+    const allCategoriesOption = document.querySelector('option[value="all"]'); // 'All Categories' 옵션 선택
+    allCategoriesOption.textContent = `All Categories (${totalQuestions} questions)`; // 텍스트 업데이트
+}
 
 function checkAllTimeHighestStreak() {
     const totalQuestionsInCategory = originalQuestions.filter(q => q.category === selectedCategory).length;
