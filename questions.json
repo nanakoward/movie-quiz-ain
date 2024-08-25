@@ -22,10 +22,10 @@
         "image_url": "https://example.com/images/neo-realism.jpg"
     },
     {
-        "question": "Why do you want to study film?",
-        "answer": "I am passionate about storytelling and visual arts.",
-        "hint": "Think about your motivation for studying film.",
-        "category": "interview_questions",
+        "question": "스릴러에서 관습(컨벤션)적으로 가져가는 가장 주된 요소는?",
+        "answer": "서스펜스",
+        "hint": "알프레드 히치콕이 말한 폭탄 비유",
+        "category": "영화_장르",
         "image_url": "https://example.com/images/neo-realism.jpg"
     },
     {
