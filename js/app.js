@@ -71,9 +71,19 @@ function checkAllTimeHighestStreak() {
     if (currentAllTimeHighestStreak === totalQuestionsInCategory) {
         displayMasterMessage();
         disableAnswerInputs();
+        displayMasterInInput(); // 입력창에 마스터 메시지 표시
     } else {
         enableAnswerInputs(); // 다른 카테고리에서 활성화
     }
+}
+
+// 입력창에 Master 메시지를 표시하는 함수
+function displayMasterInInput() {
+    const answerInput = document.getElementById("answer-input");
+    answerInput.value = `당신은 ${selectedCategory}의 마스터 짱짱맨 짱짱걸 당신은 미쳤어!`;
+    answerInput.style.textAlign = "center"; // 텍스트를 가운데 정렬
+    answerInput.style.color = "#000"; // 텍스트 색상 설정
+    answerInput.style.fontWeight = "bold"; // 텍스트 굵게 설정
 }
 
 // 답변 입력창 및 버튼을 활성화하는 함수
@@ -86,6 +96,12 @@ function enableAnswerInputs() {
 
     answerInput.disabled = false; // 입력창 활성화
     answerInput.classList.remove("disabled-input"); // 비활성화 스타일 제거
+
+    // 기존에 표시된 마스터 메시지를 초기화
+    answerInput.value = '';
+    answerInput.style.textAlign = "left"; // 기본 텍스트 정렬로 되돌림
+    answerInput.style.color = ""; // 기본 텍스트 색상으로 되돌림
+    answerInput.style.fontWeight = "normal"; // 기본 텍스트 굵기로 되돌림
 }
 
 
@@ -182,6 +198,7 @@ function checkAnswer() {
         if (allTimeHighestScores[selectedCategory] === originalQuestions.filter(q => q.category === selectedCategory).length) {
             displayMasterMessage();
             disableAnswerInputs();
+            displayMasterInInput(); // 입력창에 마스터 메시지 표시
             return;
         }
 
@@ -212,7 +229,6 @@ function checkAnswer() {
     answerInput.value = ''; 
     answerInput.focus(); 
 }
-
 
 
 // Master 메시지를 표시하는 함수
