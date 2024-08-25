@@ -308,10 +308,15 @@ answerInput.focus(); // 입력창에 포커스
 }
        
 
-// 불꽃놀이 효과 함수
+// 불꽃놀이 효과와 진동을 동시에 트리거하는 함수
 function triggerFireworks() {
     const container = document.getElementById('fireworks-container');
     const colors = ['red', 'yellow', 'blue', 'green', 'orange', 'purple', 'pink']; // 다양한 색상 배열
+
+    // 진동 효과 추가
+    if (navigator.vibrate) {
+        navigator.vibrate([200, 100, 200]); // 200ms 진동, 100ms 중지, 다시 200ms 진동
+    }
 
     for (let i = 0; i < 20; i++) { // 불꽃의 개수
         const firework = document.createElement('div');
@@ -333,6 +338,7 @@ function triggerFireworks() {
         }, 2000); // 애니메이션 길이와 동일하게 설정
     }
 }
+
 
 
 
