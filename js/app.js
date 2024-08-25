@@ -274,6 +274,8 @@ checkAllTimeHighestStreak(); // 정답 제출 후 checkAllTimeHighestStreak 실�
 // 모든 질문에 대해 정답을 맞춘 경우 입력창을 비활성화
 if (allTimeHighestScores[selectedCategory] >= originalQuestions.filter(q => q.category.includes(selectedCategory)).length) {
     disableAnswerInputs(); // 질문 개수와 동일하거나 큰 경우 비활성화
+                   // 피드백 초기화를 가장 먼저 호출하여 즉시 반영
+                   resetFeedback();
     return;
 }
 
