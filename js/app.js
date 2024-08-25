@@ -1,18 +1,27 @@
 let questions = []; // JSON 데이터를 로드하여 저장할 변수
 let currentQuestion = null;
-let highestScores = {}; // 카테고리별 최고 점수 저장 객체
+let highestScores = {}; // 카테고리별 현재 최고 점수 저장 객체
+let allTimeHighestScores = {}; // 카테고리별 가장 높았던 최고 점수 저장 객체
 let currentStreak = 0; // 현재 연속 정답 수
 let showAnswerUsed = false; // Show Answer 버튼 사용 여부
 let selectedCategory = 'all'; // 기본 선택 카테고리
 
-// 로컬 저장소에서 최고 점수 가져오기
+// 로컬 저장소에서 현재 최고 점수와 모든 시간의 최고 점수 가져오기
 function getHighestScores() {
     return JSON.parse(localStorage.getItem('highestScores')) || {};
 }
 
-// 로컬 저장소에 최고 점수 저장하기
+function getAllTimeHighestScores() {
+    return JSON.parse(localStorage.getItem('allTimeHighestScores')) || {};
+}
+
+// 로컬 저장소에 현재 최고 점수와 모든 시간의 최고 점수 저장하기
 function saveHighestScores(scores) {
     localStorage.setItem('highestScores', JSON.stringify(scores));
+}
+
+function saveAllTimeHighestScores(scores) {
+    localStorage.setItem('allTimeHighestScores', JSON.stringify(scores));
 }
 
 // JSON 파일에서 데이터를 가져와서 초기화합니다.
@@ -21,6 +30,7 @@ fetch('questions.json')
     .then(data => {
         questions = data;
         highestScores = getHighestScores();
+        allTimeHighestScores = getAllTimeHighestScores();
         shuffleQuestions(); // 문제를 랜덤하게 섞음
         getRandomQuestion(); // 첫 질문을 출력
     })
@@ -88,13 +98,22 @@ function resetStreak() {
     if (currentStreak > (highestScores[selectedCategory] || 0)) {
         highestScores[selectedCategory] = currentStreak;
         saveHighestScores(highestScores);
+        updateAllTimeHighestScores(selectedCategory, currentStreak);
     }
     currentStreak = 0;
     updateHighestScoreDisplay();
 }
 
+function updateAllTimeHighestScores(category, score) {
+    if (score > (allTimeHighestScores[category] || 0)) {
+        allTimeHighestScores[category] = score;
+        saveAllTimeHighestScores(allTimeHighestScores);
+    }
+}
+
 function updateHighestScoreDisplay() {
     document.getElementById("highest-score").innerText = `${selectedCategory} Highest Streak: ${highestScores[selectedCategory] || 0}`;
+    document.getElementById("all-time-highest-score").innerText = `All-Time ${selectedCategory} Highest Streak: ${allTimeHighestScores[selectedCategory] || 0}`;
 }
 
 function showHint() {
@@ -130,6 +149,7 @@ document.getElementById("answer-input").addEventListener("keydown", function(eve
 
 // 최고 점수를 로드하여 표시
 highestScores = getHighestScores();
+allTimeHighestScores = getAllTimeHighestScores();
 updateHighestScoreDisplay();
 
 // "앱 닫기" 버튼 기능 구현
