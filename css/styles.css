@@ -147,3 +147,35 @@ button:hover {
         transform: translate(0, 0);
     }
 }
+
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #121212;
+        color: #ffffff;
+    }
+
+    #quiz-container {
+        background-color: #1e1e1e;
+    }
+
+    button {
+        background-color: #333;
+        color: #ffffff;
+    }
+}
+
+@media (prefers-color-scheme: light) {
+    body {
+        background-color: #f4f4f4;
+        color: #000000;
+    }
+
+    #quiz-container {
+        background-color: white;
+    }
+
+    button {
+        background-color: #007BFF;
+        color: white;
+    }
+}
