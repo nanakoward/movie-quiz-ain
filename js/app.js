@@ -182,7 +182,8 @@ function shuffleQuestions() {
 
 function getRandomQuestion() {
     if (questions.length === 0) {
-        resetQuestions();  // 질문이 모두 소모되었을 경우, 다시 초기화합니다.
+    document.getElementById("question").innerText = `당신은 ${selectedCategory}의 마스터 짱짱맨 짱짱걸 당신은 미쳤어!`;
+       return;
     }
     
     currentQuestion = questions.pop(); 
@@ -193,15 +194,6 @@ function getRandomQuestion() {
     document.getElementById("answer-input").value = '';
     document.getElementById("feedback").innerText = '';
 
-        // 이미지가 있는 경우에만 표시
-        // const imageElement = document.getElementById("question-image");
-        // if (currentQuestion.image_url) {
-        //     imageElement.src = currentQuestion.image_url;
-        //     imageElement.style.display = 'block';
-        // } else {
-        //     imageElement.style.display = 'none';
-        // }    
-
         const imageElement = document.getElementById("question-image");
 if (currentQuestion.image_url) {
     console.log("Image URL:", currentQuestion.image_url); // URL 확인을 위해 콘솔에 출력
@@ -210,8 +202,6 @@ if (currentQuestion.image_url) {
 } else {
     imageElement.style.display = 'none';
 }
-
-
     document.getElementById("answer-input").focus(); 
     showAnswerUsed = false; 
 }
@@ -354,22 +344,22 @@ function disableAnswerInputs() {
     answerInput.value = `당신은 ${selectedCategory}의 마스터 짱짱맨 짱짱걸 당신은 미쳤어!`;
 }
 
-function getRandomQuestion() {
-    if (questions.length === 0) {
-        document.getElementById("question").innerText = `당신은 ${selectedCategory}의 마스터 짱짱맨 짱짱걸 당신은 미쳤어!`;
-        return;
-    }
+// function getRandomQuestion() {
+//     if (questions.length === 0) {
+//         document.getElementById("question").innerText = `당신은 ${selectedCategory}의 마스터 짱짱맨 짱짱걸 당신은 미쳤어!`;
+//         return;
+//     }
     
-    currentQuestion = questions.pop(); 
+//     currentQuestion = questions.pop(); 
     
-    document.getElementById("question").innerText = currentQuestion.question;
-    document.getElementById("hint").style.display = 'none';
-    document.getElementById("correct-answer").style.display = 'none';
-    document.getElementById("answer-input").value = '';
-    document.getElementById("feedback").innerText = '';
-    document.getElementById("answer-input").focus(); 
-    showAnswerClicked = false; // 새로운 질문으로 넘어갈 때 Show Answer 상태를 초기화
-}
+//     document.getElementById("question").innerText = currentQuestion.question;
+//     document.getElementById("hint").style.display = 'none';
+//     document.getElementById("correct-answer").style.display = 'none';
+//     document.getElementById("answer-input").value = '';
+//     document.getElementById("feedback").innerText = '';
+//     document.getElementById("answer-input").focus(); 
+//     showAnswerClicked = false; // 새로운 질문으로 넘어갈 때 Show Answer 상태를 초기화
+// }
 
 
 // function resetStreak() {
