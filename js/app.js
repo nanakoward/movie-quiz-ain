@@ -72,11 +72,6 @@ document.addEventListener('DOMContentLoaded', () => {
 // }
 
 function checkAllTimeHighestStreak() {
-    if (selectedCategory === 'all') {
-        enableAnswerInputs(); // 'all' 카테고리에서는 항상 입력 활성화
-        return;
-    }
-
     const totalQuestionsInCategory = originalQuestions.filter(q => q.category.includes(selectedCategory)).length;
     const currentAllTimeHighestStreak = allTimeHighestScores[selectedCategory] || 0;
 
@@ -89,7 +84,6 @@ function checkAllTimeHighestStreak() {
         enableAnswerInputs(); // 다른 카테고리에서 활성화
     }
 }
-
 
 // 로컬 저장소에 마스터 메시지 저장
 function saveMasterMessageToStorage() {
@@ -151,11 +145,11 @@ fetch('questions.json')
         data.forEach(item => {
             if (!Array.isArray(item.category)) {
                 // category가 문자열이면 배열로 변환하고 "All Categories" 추가
-                item.category = [item.category, "all"];
+                item.category = [item.category, "all_categories"];
             } else {
                 // category가 이미 배열이면 "All Categories"를 추가
-                if (!item.category.includes("all")) {
-                    item.category.push("all");
+                if (!item.category.includes("all_categories")) {
+                    item.category.push("all_categories");
                 }
             }
 
