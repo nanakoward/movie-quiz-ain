@@ -34,16 +34,7 @@ function saveNickname() {
     if (nickname) {
         localStorage.setItem('nickname', nickname);
         document.getElementById('nickname-popup').style.display = 'none';
-        showMotivationMessage();
     }
-}
-
-function showMotivationMessage() {
-    const popupContent = document.querySelector('.popup-content');
-    popupContent.innerHTML = "<h2>오늘도 화이팅!</h2>";
-    setTimeout(() => {
-        document.getElementById('nickname-popup').style.display = 'none';
-    }, 2000);
 }
 
 function saveNicknameFromSettings() {
@@ -185,6 +176,42 @@ function selectCategory() {
     getRandomQuestion(); // 첫 질문을 출력
 }
 
+// 새로고침 기능 추가
+let isRefreshing = false;
+
+function handleTouchStart(event) {
+    // 스크롤 위치가 0일 때만 새로고침을 준비합니다.
+    isRefreshing = window.scrollY === 0;
+}
+
+function handleTouchMove(event) {
+    if (isRefreshing) {
+        const refreshIndicator = document.getElementById('refresh-indicator');
+        // 일정 거리 이상 스크롤이 움직이면 새로고침 애니메이션을 표시합니다.
+        if (window.scrollY > 10) {
+            refreshIndicator.style.display = 'block';
+        }
+    }
+}
+
+function handleTouchEnd(event) {
+    const refreshIndicator = document.getElementById('refresh-indicator');
+    if (isRefreshing && window.scrollY > 10) {
+        // 스크롤 위치가 일정 이상 내려가면 페이지를 새로고침합니다.
+        location.reload();
+    } else {
+        // 새로고침이 트리거되지 않으면 애니메이션을 숨깁니다.
+        refreshIndicator.style.display = 'none';
+    }
+    isRefreshing = false;
+}
+
+// 이벤트 리스너 추가
+window.addEventListener('touchstart', handleTouchStart);
+window.addEventListener('touchmove', handleTouchMove);
+window.addEventListener('touchend', handleTouchEnd);
+
+
 // Enter 키를 눌렀을 때 checkAnswer 함수가 호출되도록 이벤트 추가
 document.getElementById("answer-input").addEventListener("keydown", function(event) {
     if (event.key === "Enter" || event.key === "Return") {
@@ -203,37 +230,3 @@ updateHighestScoreDisplay();
 function closeApp() {
     alert("To close the app, use your device's navigation buttons.");
 }
-
-// 새로고침 기능 추가
-let isRefreshing = false;
-
-function handleTouchStart(event) {
-    if (window.scrollY === 0) {
-        isRefreshing = true;
-    }
-}
-
-function handleTouchMove(event) {
-    if (isRefreshing) {
-        const refreshIndicator = document.getElementById('refresh-indicator');
-        if (window.scrollY > 10) {
-            refreshIndicator.style.display = 'block';
-        }
-    }
-}
-
-function handleTouchEnd(event) {
-    if (isRefreshing && window.scrollY > 10) {
-        location.reload();
-    } else {
-        const refreshIndicator = document.getElementById('refresh-indicator');
-        refreshIndicator.style.display = 'none';
-    }
-    isRefreshing = false;
-}
-
-// 이벤트 리스너 추가
-window.addEventListener('touchstart', handleTouchStart);
-window.addEventListener('touchmove', handleTouchMove);
-window.addEventListener('touchend', handleTouchEnd);
-
