@@ -143,6 +143,8 @@ function checkAnswer() {
             updateAllTimeHighestScores(selectedCategory, currentStreak);
         }
 
+        updateHighestScoreDisplay(); // 실시간 업데이트
+
         setTimeout(() => {
             document.getElementById("feedback").innerText = "";
             document.getElementById("feedback").className = "";
@@ -153,6 +155,9 @@ function checkAnswer() {
         document.getElementById("feedback").className = "incorrect";
         resetStreak(); // 연속 정답 수 초기화
         resetQuestions(); // 질문 리스트를 다시 초기화
+
+        updateHighestScoreDisplay(); // 실시간 업데이트
+
         setTimeout(() => {
             document.getElementById("feedback").innerText = "";
             document.getElementById("feedback").className = "";
@@ -172,7 +177,7 @@ function resetStreak() {
     }
     currentStreak = 0;
     highestScores[selectedCategory] = 0; // 오답 시 Highest Streak을 0으로 초기화
-    updateHighestScoreDisplay();
+    updateHighestScoreDisplay(); // 실시간 업데이트
 }
 
 function updateAllTimeHighestScores(category, score) {
