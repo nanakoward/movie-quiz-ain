@@ -313,6 +313,8 @@ function triggerFireworks() {
     const container = document.getElementById('fireworks-container');
     const colors = ['red', 'yellow', 'blue', 'green', 'orange', 'purple', 'pink']; // 다양한 색상 배열
 
+    playRandomSound();
+
     // 진동 효과 추가
     if (navigator.vibrate) {
         navigator.vibrate([200, 100, 200]); // 200ms 진동, 100ms 중지, 다시 200ms 진동
@@ -458,6 +460,18 @@ function selectCategory() {
         enableAnswerInputs(); // 질문 개수보다 작은 경우 활성화
         getRandomQuestion(); // 새 카테고리에서 질문을 하나 선택하여 표시
     }
+}
+
+function playRandomSound() {
+    // 오디오 요소의 ID를 배열로 저장
+    const sounds = ['sound1', 'sound2'];
+    
+    // 배열에서 무작위로 하나의 ID 선택
+    const randomSoundId = sounds[Math.floor(Math.random() * sounds.length)];
+    
+    // 선택된 오디오 요소 재생
+    const sound = document.getElementById(randomSoundId);
+    sound.play();
 }
 
 
