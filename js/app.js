@@ -216,7 +216,8 @@ function checkAnswer() {
 
 function resetStreak() {
     currentStreak = 0;
-    highestScores[selectedCategory] = 0;
+    highestScores[selectedCategory] = 0; 
+    saveHighestScores(highestScores); // 초기화된 점수를 저장
     updateHighestScoreDisplay();
 }
 
