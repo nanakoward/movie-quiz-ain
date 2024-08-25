@@ -148,6 +148,12 @@ function checkAnswer() {
 
         updateHighestScoreDisplay(); 
 
+        if (questions.length === 0) {
+            // 모든 질문을 맞춘 경우 마스터 메시지 출력
+            document.getElementById("question").innerText = `당신은 ${selectedCategory}의 마스터 짱짱맨 짱짱걸 당신은 미쳤어!`;
+            return;
+        }
+
         setTimeout(() => {
             document.getElementById("feedback").innerText = "";
             document.getElementById("feedback").className = "";
@@ -157,21 +163,36 @@ function checkAnswer() {
         document.getElementById("feedback").innerText = `${nickname}, 까비..`;
         document.getElementById("feedback").className = "incorrect";
         resetStreak(); 
-
-        // 틀렸을 경우 선택된 카테고리의 questions를 초기화
-        resetQuestions(); 
+        
+        resetQuestions();  // 질문 리스트를 초기화합니다.
 
         updateHighestScoreDisplay(); 
 
         setTimeout(() => {
             document.getElementById("feedback").innerText = "";
             document.getElementById("feedback").className = "";
-            getRandomQuestion(); 
+            getRandomQuestion();  // 초기화된 리스트에서 새로운 질문을 가져옵니다.
         }, 1000);
     }
 
     answerInput.value = ''; 
     answerInput.focus(); 
+}
+
+function getRandomQuestion() {
+    if (questions.length === 0) {
+        resetQuestions();  // 질문이 모두 소모되었을 경우, 다시 초기화합니다.
+    }
+    
+    currentQuestion = questions.pop(); 
+    
+    document.getElementById("question").innerText = currentQuestion.question;
+    document.getElementById("hint").style.display = 'none';
+    document.getElementById("correct-answer").style.display = 'none';
+    document.getElementById("answer-input").value = '';
+    document.getElementById("feedback").innerText = '';
+    document.getElementById("answer-input").focus(); 
+    showAnswerUsed = false; 
 }
 
 
