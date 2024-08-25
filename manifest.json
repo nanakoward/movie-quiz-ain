@@ -1,7 +1,7 @@
 {
     "name": "Movie Quiz",
     "short_name": "Quiz",
-    "start_url": "/",
+    "start_url": "/movie-quiz-ain",
     "display": "standalone",
     "background_color": "#ffffff",
     "theme_color": "#007BFF",
