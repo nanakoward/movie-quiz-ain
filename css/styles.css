@@ -179,3 +179,32 @@ button:hover {
         color: white;
     }
 }
+
+/* "정말 초기화 하시겠습니까?" 확인 메시지와 버튼 스타일 */
+#reset-confirmation {
+    margin-top: 20px;
+}
+
+#reset-confirmation p {
+    color: red;
+    font-weight: bold;
+}
+
+#reset-confirmation button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    margin: 5px;
+    cursor: pointer;
+}
+
+#confirm-reset-button {
+    background-color: #dc3545; /* "네" 버튼을 빨간색으로 설정 */
+    color: white;
+}
+
+#cancel-reset-button {
+    background-color: #6c757d; /* "아니오" 버튼을 회색으로 설정 */
+    color: white;
+}
