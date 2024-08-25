@@ -59,6 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById("close-settings-button").addEventListener("click", closeSettings);
 // Reset 확인 버튼 작동하도록 설정
 document.getElementById("reset-button").addEventListener("click", confirmReset);
+
     document.addEventListener('click', function(event) {
         if (event.target && event.target.id === 'confirm-reset-yes') {
             resetAllData();
@@ -102,26 +103,36 @@ function confirmReset() {
         <button id="confirm-reset-no">아니오</button>
     `;
 }
+function normalizeString(str) {
+    return str.toLowerCase().replace(/\s+/g, ''); // 소문자로 변경하고 모든 띄어쓰기를 제거
+}
+
+function getNormalizedAnswer(answer) {
+    return normalizeString(answer);
+}
 
 // JSON 파일에서 데이터를 가져와서 초기화합니다.
 fetch('questions.json')
-    .then(response => response.json())
-    .then(data => {
-        originalQuestions = data;
-        resetQuestions();
-        highestScores = getHighestScores();
-        allTimeHighestScores = getAllTimeHighestScores();
-        nickname = getNickname();
-
-        if (!nickname) {
-            document.getElementById('nickname-popup').style.display = 'block';
-        }
-
-        getRandomQuestion();
-    })
-    .catch(error => {
-        console.error("Error loading questions:", error);
+.then(response => response.json())
+.then(data => {
+    originalQuestions = data.map(question => {
+        question.answer = normalizeString(question.answer); // 정답을 소문자와 띄어쓰기 없는 상태로 정규화
+        return question;
     });
+    resetQuestions();
+    highestScores = getHighestScores();
+    allTimeHighestScores = getAllTimeHighestScores();
+    nickname = getNickname();
+
+    if (!nickname) {
+        document.getElementById('nickname-popup').style.display = 'block';
+    }
+
+    getRandomQuestion();
+})
+.catch(error => {
+    console.error("Error loading questions:", error);
+});
 
 function resetQuestions() {
     if (selectedCategory === 'all') {
@@ -146,6 +157,7 @@ function getRandomQuestion() {
     }
 
     currentQuestion = questions.pop();
+
     document.getElementById("question").innerText = currentQuestion.question;
     document.getElementById("hint").style.display = 'none';
     document.getElementById("correct-answer").style.display = 'none';
@@ -156,11 +168,10 @@ function getRandomQuestion() {
     showAnswerUsed = false;
 }
 
-
 function checkAnswer() {
     const answerInput = document.getElementById("answer-input");
-    const userAnswer = answerInput.value.trim().toLowerCase();
-    const correctAnswer = currentQuestion.answer.toLowerCase();
+    const userAnswer = normalizeString(answerInput.value);  // 입력된 답변을 정규화
+    const correctAnswer = getNormalizedAnswer(currentQuestion.answer);  // 정답을 정규화
 
     if (showAnswerUsed) {
         resetStreak();
