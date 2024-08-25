@@ -17,8 +17,8 @@
         <label for="category">Select Category:</label>
         <select id="category" onchange="selectCategory()">
             <option value="all_categories">All Categories</option>
-            <option value="film_history">영화 사조</option>
-            <option value="film_theory">영화 이론</option>
+            <option value="영화_사조">영화 사조</option>
+            <option value="영화_이론">영화 이론</option>
             <option value="interview_questions">Interview Questions</option>
         </select>
 
@@ -29,6 +29,7 @@
         </div>
 
         <div id="question-container">
+            <img id="question-image" src="" alt="Question Image" style="display: none; max-width: 100%; height: auto;"/>
             <p id="question">Your question will appear here</p>
             <input type="text" id="answer-input" placeholder="Enter your answer" />
             <button id="submit-answer-button" onclick="checkAnswer()">Submit Answer</button>

@@ -192,6 +192,16 @@ function getRandomQuestion() {
     document.getElementById("correct-answer").style.display = 'none';
     document.getElementById("answer-input").value = '';
     document.getElementById("feedback").innerText = '';
+
+        // 이미지가 있는 경우에만 표시
+        const imageElement = document.getElementById("question-image");
+        if (currentQuestion.image_url) {
+            imageElement.src = currentQuestion.image_url;
+            imageElement.style.display = 'block';
+        } else {
+            imageElement.style.display = 'none';
+        }    
+
     document.getElementById("answer-input").focus(); 
     showAnswerUsed = false; 
 }
