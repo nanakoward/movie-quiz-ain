@@ -115,5 +115,5 @@ document.addEventListener("touchmove", function(event) {
 
 // "앱 닫기" 버튼 기능 구현
 function closeApp() {
-    alert("To close the app, use your device's navigation buttons.");
+    alert("나가는 기능 안됨ㅠㅠ 그냥 홈버튼 눌러서 앱 끄면 됩니다");
 }
