@@ -11,26 +11,6 @@
 </head>
 <body>
 
-    <!-- 닉네임 설정 팝업 -->
-    <div id="nickname-popup" class="popup" style="display:none;">
-        <div class="popup-content">
-            <h2>Enter your nickname:</h2>
-            <input type="text" id="nickname-input" placeholder="Your nickname">
-            <button onclick="saveNickname()">Submit</button>
-        </div>
-    </div>
-
-<!-- 닉네임 수정 팝업 -->
-<div id="settings-popup" class="popup" style="display:none;">
-  <div class="popup-content">
-      <h2>Edit your nickname:</h2>
-      <input type="text" id="settings-nickname-input" placeholder="Your nickname">
-      <button id="save-settings-button">Save</button>
-      <button id="close-settings-button">Close</button>
-  </div>
-</div>
-
-
     <div id="quiz-container">
         <h1>Movie Quiz</h1>
 
@@ -42,19 +22,15 @@
             <option value="interview_questions">Interview Questions</option>
         </select>
 
-        <!-- All-Time 최고 연속 정답 수 표시 영역 -->
-        <div id="all-time-stats">
-            <p id="all-time-highest-score">All-Time Highest Streak: 0</p>
-        </div>
-
-        <!-- 현재 최고 연속 정답 수 표시 영역 -->
+        <!-- 최고 연속 정답 수 표시 영역 -->
         <div id="stats">
             <p id="highest-score">Highest Streak: 0</p>
+            <p id="all-time-highest-score">All-Time Highest Streak: 0</p>
         </div>
 
         <div id="question-container">
             <p id="question">Your question will appear here</p>
-            <input type="text" id="answer-input" placeholder="Enter your answer">
+            <input type="text" id="answer-input" placeholder="Enter your answer" />
             <button onclick="checkAnswer()">Submit Answer</button>
         </div>
 
@@ -64,12 +40,9 @@
         <button onclick="showHint()">Hint</button>
         <p id="hint" style="display:none;">Hint will be shown here</p>
 
-        <!-- Show Answer 버튼을 힌트 본문 아래에 위치시키고 기본적으로 숨김 -->
+        <!-- Show Answer 버튼 -->
         <button id="show-answer-btn" onclick="showAnswer()" style="display:none;">Show Answer</button>
         <p id="correct-answer" style="display:none;">The correct answer will be shown here</p>
-
-        <!-- Setting 버튼 추가 -->
-        <button onclick="openSettings()">Settings</button>
 
         <!-- Close App 버튼 -->
         <button onclick="closeApp()">Close App</button>
@@ -78,6 +51,22 @@
         <div id="refresh-indicator" style="display:none;">
             <p>Refreshing...</p>
         </div>
+    </div>
+
+    <!-- Settings 팝업 -->
+    <div id="settings-popup" style="display:none;">
+        <h2>Settings</h2>
+        <label for="settings-nickname-input">Change Nickname:</label>
+        <input type="text" id="settings-nickname-input" placeholder="Enter new nickname" />
+        <button id="save-settings-button">Save</button>
+        <button id="close-settings-button">Close</button>
+    </div>
+
+    <!-- Nickname 설정 팝업 -->
+    <div id="nickname-popup" style="display:none;">
+        <h2>Set Your Nickname</h2>
+        <input type="text" id="nickname-input" placeholder="Enter your nickname" />
+        <button onclick="saveNickname()">Save</button>
     </div>
 
     <script src="js/app.js"></script>

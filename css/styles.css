@@ -41,7 +41,7 @@ button {
     color: white;
     cursor: pointer;
     margin: 5px;
-    display: block; /* 버튼을 블록으로 표시하여 가운데 정렬 가능 */
+    display: block;
     margin-left: auto;
     margin-right: auto;
 }
@@ -54,14 +54,14 @@ button:hover {
     color: green;
     font-weight: bold;
     animation: correctAnimation 1s ease-in-out;
-    background-color: #e0ffe0; /* Correct answer의 배경색 */
+    background-color: #e0ffe0;
 }
 
 #feedback.incorrect {
     color: red;
     font-weight: bold;
     animation: incorrectAnimation 1s ease-in-out;
-    background-color: #ffe0e0; /* Incorrect answer의 배경색 */
+    background-color: #ffe0e0;
 }
 
 @keyframes correctAnimation {
@@ -119,6 +119,7 @@ button:hover {
     margin-right: auto;
 }
 
+/* 새로고침 애니메이션 */
 #refresh-indicator {
     position: fixed;
     top: 0;
@@ -136,7 +137,6 @@ button:hover {
     from { opacity: 0; }
     to { opacity: 1; }
 }
-
 
 /* iOS에서 닫기 버튼 문제 해결 */
 @media only screen and (max-width: 600px) {
