@@ -59,7 +59,20 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById("save-settings-button").addEventListener("click", saveNicknameFromSettings);
     document.getElementById("close-settings-button").addEventListener("click", closeSettings);
     document.getElementById("reset-button").addEventListener("click", confirmReset); // 초기화 버튼 리스너 추가
+
+    // 기존 카테고리의 All-Time Highest Streak를 확인하여 마스터 메시지 및 입력 비활성화 처리
+    checkAllTimeHighestStreak();
 });
+
+function checkAllTimeHighestStreak() {
+    const totalQuestionsInCategory = originalQuestions.filter(q => q.category === selectedCategory).length;
+    const currentAllTimeHighestStreak = allTimeHighestScores[selectedCategory] || 0;
+
+    if (currentAllTimeHighestStreak === totalQuestionsInCategory) {
+        displayMasterMessage();
+        disableAnswerInputs();
+    }
+}
 
 function closeSettings() {
     document.getElementById('settings-popup').style.display = 'none';
@@ -123,6 +136,7 @@ function getRandomQuestion() {
     showAnswerUsed = false; 
 }
 
+// 기존의 checkAnswer() 함수 내 마스터 메시지 출력 및 비활성화 부분을 제거
 function checkAnswer() {
     const answerInput = document.getElementById("answer-input");
     const userAnswer = answerInput.value.trim().toLowerCase();
@@ -156,13 +170,6 @@ function checkAnswer() {
             return;
         }
 
-        if (questions.length === 0) {
-            // 모든 질문을 맞춘 경우 마스터 메시지 출력 및 버튼 비활성화
-            document.getElementById("question").innerText = `당신은 ${selectedCategory}의 마스터 짱짱맨 짱짱걸 당신은 미쳤어!`;
-            disableAnswerButton();
-            return;
-        }
-
         setTimeout(() => {
             document.getElementById("feedback").innerText = "";
             document.getElementById("feedback").className = "";
@@ -190,6 +197,7 @@ function checkAnswer() {
     answerInput.value = ''; 
     answerInput.focus(); 
 }
+
 
 // Master 메시지를 표시하는 함수
 function displayMasterMessage() {
