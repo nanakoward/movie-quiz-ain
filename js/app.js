@@ -57,6 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById("save-settings-button").addEventListener("click", saveNicknameFromSettings);
     document.getElementById("close-settings-button").addEventListener("click", closeSettings);
+    document.getElementById("reset-button").addEventListener("click", confirmReset); // 초기화 버튼 리스너 추가
 });
 
 function closeSettings() {
@@ -251,4 +252,16 @@ updateHighestScoreDisplay();
 
 function closeApp() {
     alert("To close the app, use your device's navigation buttons.");
+}
+
+function resetAllData() {
+    localStorage.clear(); // 로컬 스토리지 전체 초기화
+    location.reload(); // 페이지 새로고침
+}
+
+function confirmReset() {
+    const confirmation = confirm("정말 초기화 하겠습니까?");
+    if (confirmation) {
+        resetAllData(); // '네' 선택 시 초기화
+    }
 }
