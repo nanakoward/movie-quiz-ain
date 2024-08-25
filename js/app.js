@@ -1,8 +1,8 @@
 let questions = []; // JSON 데이터를 로드하여 저장할 변수
 let currentQuestion = null;
-let correctCount = 0; // 맞힌 문제 수
 let highestScore = 0; // 최고 점수
 let currentStreak = 0; // 현재 연속 정답 수
+let showAnswerUsed = false; // Show Answer 버튼 사용 여부
 
 // 로컬 저장소에서 최고 점수 가져오기
 function getHighestScore() {
@@ -47,6 +47,7 @@ function getRandomQuestion() {
     document.getElementById("answer-input").value = '';
     document.getElementById("feedback").innerText = '';
     document.getElementById("answer-input").focus(); // 정답 입력칸에 커서가 가도록 함
+    showAnswerUsed = false; // 새로운 질문에서는 Show Answer 사용 여부 초기화
 }
 
 function checkAnswer() {
@@ -54,8 +55,7 @@ function checkAnswer() {
     const userAnswer = answerInput.value.trim().toLowerCase();
     const correctAnswer = currentQuestion.answer.toLowerCase();
 
-    if (userAnswer === correctAnswer) {
-        correctCount++;
+    if (userAnswer === correctAnswer && !showAnswerUsed) {
         currentStreak++;
         document.getElementById("feedback").innerText = "Correct!";
         document.getElementById("feedback").className = "correct";
@@ -76,7 +76,6 @@ function checkAnswer() {
 
     answerInput.value = ''; // 입력된 텍스트 삭제
     answerInput.focus(); // 입력칸에 커서가 가도록 함
-    updateStats();
 }
 
 function resetStreak() {
@@ -86,10 +85,6 @@ function resetStreak() {
     }
     currentStreak = 0;
     updateHighestScoreDisplay();
-}
-
-function updateStats() {
-    document.getElementById("correct-count").innerText = correctCount;
 }
 
 function updateHighestScoreDisplay() {
@@ -105,6 +100,7 @@ function showHint() {
 function showAnswer() {
     document.getElementById("correct-answer").innerText = currentQuestion.answer;
     document.getElementById("correct-answer").style.display = 'block';
+    showAnswerUsed = true; // Show Answer를 사용한 경우 연속 정답에서 제외
     resetStreak(); // 정답을 확인하면 연속 정답 수 초기화
 }
 
@@ -122,6 +118,5 @@ updateHighestScoreDisplay();
 
 // "앱 닫기" 버튼 기능 구현
 function closeApp() {
-    alert("나가는 기능 안됨ㅠㅠ 그냥 홈버튼 눌러서 앱 끄면 됩니다");
+    alert("To close the app, use your device's navigation buttons.");
 }
-
