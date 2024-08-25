@@ -1,299 +1,104 @@
-let originalQuestions = [];
+// app.js 파일 내용
+
+// JSON 파일에서 질문 데이터를 불러오기
 let questions = [];
-let currentQuestion = null;
-let highestScores = {};
-let allTimeHighestScores = {};
-let currentStreak = 0;
-let showAnswerUsed = false;
-let selectedCategory = 'all';
-let nickname = '';
-
-// Initialize scores and nickname
-function getHighestScores() {
-    return {}; 
-}
-
-function getAllTimeHighestScores() {
-    return JSON.parse(localStorage.getItem('allTimeHighestScores')) || {};
-}
-
-function getNickname() {
-    return localStorage.getItem('nickname') || '';
-}
-
-// Save scores and nickname
-function saveHighestScores(scores) {
-    localStorage.setItem('highestScores', JSON.stringify(scores));
-}
-
-function saveAllTimeHighestScores(scores) {
-    localStorage.setItem('allTimeHighestScores', JSON.stringify(scores));
-}
-
-function saveNickname() {
-    nickname = document.getElementById('nickname-input').value.trim();
-    if (nickname) {
-        localStorage.setItem('nickname', nickname);
-        document.getElementById('nickname-popup').style.display = 'none';
-    }
-}
-
-// Save nickname from settings
-function saveNicknameFromSettings() {
-    const newNickname = document.getElementById('settings-nickname-input').value.trim();
-    if (newNickname) {
-        nickname = newNickname;
-        localStorage.setItem('nickname', nickname);
-        closeSettings();
-    }
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('settings-nickname-input').addEventListener('keydown', function(event) {
-        if (event.key === 'Enter' || event.key === 'Return') {
-            event.preventDefault();
-            saveNicknameFromSettings();
-        }
-    });
-
-    document.getElementById("save-settings-button").addEventListener("click", saveNicknameFromSettings);
-    document.getElementById("close-settings-button").addEventListener("click", closeSettings);
-    document.getElementById("reset-button").addEventListener("click", confirmReset);
-
-    document.addEventListener('click', function(event) {
-        if (event.target && event.target.id === 'confirm-reset-yes') {
-            resetAllData();
-        }
-        if (event.target && event.target.id === 'confirm-reset-no') {
-            openSettings();
-        }
-    });
-
-    document.getElementById("answer-input").addEventListener("keydown", function(event) {
-        if (event.key === "Enter" || event.key === "Return") {
-            event.preventDefault(); 
-            checkAnswer(); 
-        }
-    });
-
-    document.getElementById("submit-answer-button").addEventListener("click", checkAnswer);
-});
-
-function closeSettings() {
-    document.getElementById('settings-popup').style.display = 'none';
-}
-
-function openSettings() {
-    const settingsPopup = document.getElementById('settings-popup');
-    settingsPopup.style.backgroundColor = "#333";
-    settingsPopup.style.display = 'block';
-    document.getElementById("reset-button").addEventListener("click", confirmReset);
-}
-
-function resetAllData() {
-    localStorage.clear();
-    location.reload();
-}
-
-function confirmReset() {
-    const settingsPopup = document.getElementById('settings-popup');
-    settingsPopup.innerHTML = `
-        <h2 style="color: red;">정말 초기화 하시겠습니까?</h2>
-        <button id="confirm-reset-yes">네</button>
-        <button id="confirm-reset-no">아니오</button>
-    `;
-}
-
-function normalizeString(str) {
-    return str.toLowerCase().replace(/\s+/g, '');
-}
-
-// JSON 파일에서 데이터를 가져와서 초기화
 fetch('questions.json')
-.then(response => response.json())
-.then(data => {
-    originalQuestions = data.map(question => {
-        question.answer = normalizeString(question.answer);
-        return question;
+    .then(response => response.json())
+    .then(data => {
+        questions = data;
+        loadNewQuestion(); // 첫 번째 질문을 로드
     });
-    resetQuestions();
-    highestScores = getHighestScores();
-    allTimeHighestScores = getAllTimeHighestScores();
-    nickname = getNickname();
 
-    if (!nickname) {
-        document.getElementById('nickname-popup').style.display = 'block';
-    }
+let currentQuestionIndex = 0;
+let correctStreak = 0;
+let highestStreak = 0;
+let selectedCategory = "all";
 
-    getRandomQuestion();
-})
-.catch(error => {
-    console.error("Error loading questions:", error);
-});
-
-function resetQuestions() {
-    if (selectedCategory === 'all') {
-        questions = [...originalQuestions];
-    } else {
-        questions = originalQuestions.filter(q => q.category === selectedCategory);
-    }
-    shuffleQuestions();
+// 질문 카테고리 선택
+function selectCategory() {
+    selectedCategory = document.getElementById("category").value;
+    loadNewQuestion();
 }
 
-function shuffleQuestions() {
-    for (let i = questions.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [questions[i], questions[j]] = [questions[j], questions[i]];
-    }
+// 새로운 질문 로드
+function loadNewQuestion() {
+    const filteredQuestions = selectedCategory === "all" ? questions : questions.filter(q => q.category === selectedCategory);
+    currentQuestionIndex = Math.floor(Math.random() * filteredQuestions.length);
+    document.getElementById("question").innerText = filteredQuestions[currentQuestionIndex].question;
+    document.getElementById("answer-input").value = "";
+    document.getElementById("feedback").innerText = "";
+    document.getElementById("hint").style.display = "none";
+    document.getElementById("correct-answer").style.display = "none";
+    document.getElementById("show-answer-btn").style.display = "none";
 }
 
-function getRandomQuestion() {
-    if (questions.length === 0) {
-        document.getElementById("question").innerText = `당신은 ${selectedCategory}의 마스터 짱짱맨 짱짱걸 당신은 미쳤어!`;
-        return;
-    }
-
-    currentQuestion = questions.pop();
-
-    document.getElementById("question").innerText = currentQuestion.question;
-    document.getElementById("hint").style.display = 'none';
-    document.getElementById("correct-answer").style.display = 'none';
-    document.getElementById("show-answer-btn").style.display = 'none';
-    document.getElementById("answer-input").value = '';
-    document.getElementById("feedback").innerText = '';
-    document.getElementById("answer-input").focus();
-    showAnswerUsed = false;
-}
-
+// 답 체크
 function checkAnswer() {
-    const answerInput = document.getElementById("answer-input");
-    const userAnswer = normalizeString(answerInput.value);
-    const correctAnswer = currentQuestion.answer;
-
-    if (showAnswerUsed) {
-        resetStreak();
-    }
+    const userAnswer = document.getElementById("answer-input").value.trim();
+    const correctAnswer = questions[currentQuestionIndex].answer;
 
     if (userAnswer === correctAnswer) {
-        currentStreak++;
-        document.getElementById("feedback").innerText = `${nickname}, 정답!`;
-        document.getElementById("feedback").className = "correct";
-
-        if (currentStreak > (highestScores[selectedCategory] || 0)) {
-            highestScores[selectedCategory] = currentStreak;
-            saveHighestScores(highestScores);
-            updateAllTimeHighestScores(selectedCategory, currentStreak);
+        document.getElementById("feedback").innerText = "Correct!";
+        correctStreak++;
+        if (correctStreak > highestStreak) {
+            highestStreak = correctStreak;
+            document.getElementById("highest-score").innerText = "Highest Streak: " + highestStreak;
         }
-
-        updateHighestScoreDisplay();
-
-        setTimeout(() => {
-            document.getElementById("feedback").innerText = "";
-            document.getElementById("feedback").className = "";
-            getRandomQuestion();
-        }, 1000);
     } else {
-        document.getElementById("feedback").innerText = `${nickname}, 까비..`;
-        document.getElementById("feedback").className = "incorrect";
-        resetStreak();
-        resetQuestions();
-
-        updateHighestScoreDisplay();
-
-        setTimeout(() => {
-            document.getElementById("feedback").innerText = "";
-            document.getElementById("feedback").className = "";
-            getRandomQuestion();
-        }, 1000);
+        document.getElementById("feedback").innerText = "Wrong! The correct answer was: " + correctAnswer;
+        correctStreak = 0;
+        loadNewQuestion();  // 오답일 경우 새로운 질문 로드
     }
 
-    answerInput.value = '';
-    answerInput.focus();
+    document.getElementById("all-time-highest-score").innerText = "All-Time Highest Streak: " + highestStreak;
 }
 
-function resetStreak() {
-    currentStreak = 0;
-    highestScores[selectedCategory] = 0;
-    saveHighestScores(highestScores);
-    updateHighestScoreDisplay();
-}
-
-function updateAllTimeHighestScores(category, score) {
-    if (score > (allTimeHighestScores[category] || 0)) {
-        allTimeHighestScores[category] = score;
-        saveAllTimeHighestScores(allTimeHighestScores);
-    }
-}
-
-function updateHighestScoreDisplay() {
-    document.getElementById("all-time-highest-score").innerText = `All-Time ${selectedCategory} Highest Streak: ${allTimeHighestScores[selectedCategory] || 0}`;
-    document.getElementById("highest-score").innerText = `${selectedCategory} Highest Streak: ${highestScores[selectedCategory] || 0}`;
-}
-
+// 힌트 보기
 function showHint() {
-    document.getElementById("hint").innerText = currentQuestion.hint;
-    document.getElementById("hint").style.display = 'block';
-
-    const showAnswerButton = document.getElementById("show-answer-btn");
-    showAnswerButton.style.display = 'block';
-    showAnswerButton.style.opacity = '0.2';
+    document.getElementById("hint").style.display = "block";
+    document.getElementById("hint").innerText = "Hint: " + questions[currentQuestionIndex].hint;
 }
 
+// 정답 보기
 function showAnswer() {
-    document.getElementById("correct-answer").innerText = currentQuestion.answer;
-    document.getElementById("correct-answer").style.display = 'block';
-    showAnswerUsed = true;
-    resetStreak();
+    document.getElementById("correct-answer").style.display = "block";
+    document.getElementById("correct-answer").innerText = "The correct answer is: " + questions[currentQuestionIndex].answer;
 }
 
-function selectCategory() {
-    selectedCategory = document.getElementById('category').value;
-    updateHighestScoreDisplay();
-    resetQuestions();
-    getRandomQuestion();
-}
-
-let isRefreshing = false;
-
-function handleTouchStart(event) {
-    isRefreshing = window.scrollY === 0;
-}
-
-function handleTouchMove(event) {
-    if (isRefreshing) {
-        const refreshIndicator = document.getElementById('refresh-indicator');
-        if (window.scrollY > 10) {
-            refreshIndicator.style.display = 'block';
-        }
+// 닉네임 저장 (예시로 사용됨)
+function saveNickname() {
+    const nickname = document.getElementById("nickname-input").value.trim();
+    if (nickname) {
+        alert("Nickname saved: " + nickname);
+        document.getElementById("nickname-popup").style.display = "none";
     }
 }
 
-function handleTouchEnd(event) {
-    const refreshIndicator = document.getElementById('refresh-indicator');
-    if (isRefreshing && window.scrollY > 10) {
-        location.reload();
-    } else {
-        refreshIndicator.style.display = 'none';
-    }
-    isRefreshing = false;
+// 설정 열기 (예시로 사용됨)
+function openSettings() {
+    document.getElementById("settings-popup").style.display = "block";
 }
 
-window.addEventListener('touchstart', handleTouchStart);
-window.addEventListener('touchmove', handleTouchMove);
-window.addEventListener('touchend', handleTouchEnd);
+// 설정 닫기 (예시로 사용됨)
+function closeApp() {
+    window.close(); // 예시로 창을 닫는 기능
+}
 
-document.getElementById("answer-input").addEventListener("keydown", function(event) {
-    if (event.key === "Enter" || event.key === "Return") {
-        event.preventDefault(); 
-        checkAnswer(); 
-    }
+// 초기화 확인
+document.getElementById("reset-button").addEventListener("click", () => {
+    document.getElementById("reset-confirmation").style.display = "block";
 });
 
-highestScores = getHighestScores();
-allTimeHighestScores = getAllTimeHighestScores();
-nickname = getNickname();
-updateHighestScoreDisplay();
+// 초기화 확인 메시지
+document.getElementById("confirm-reset-button").addEventListener("click", () => {
+    correctStreak = 0;
+    highestStreak = 0;
+    document.getElementById("highest-score").innerText = "Highest Streak: " + highestStreak;
+    document.getElementById("all-time-highest-score").innerText = "All-Time Highest Streak: " + highestStreak;
+    document.getElementById("reset-confirmation").style.display = "none";
+});
 
-function closeApp() {
-    alert("To close the app, use your device's navigation buttons.");
-}
+// 초기화 취소
+document.getElementById("cancel-reset-button").addEventListener("click", () => {
+    document.getElementById("reset-confirmation").style.display = "none";
+});
