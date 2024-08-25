@@ -171,14 +171,12 @@ fetch('questions.json')
         console.error("Error loading questions:", error);
     });
 
-function resetQuestions() {
-    if (selectedCategory === 'all') {
-        questions = [...originalQuestions]; 
-    } else {
-        questions = originalQuestions.filter(q => q.category.includes(selectedCategory)); 
+    function resetQuestions() {
+        // selectedCategory에 포함된 질문들만 걸러냅니다.
+        questions = originalQuestions.filter(q => q.category.includes(selectedCategory));
+        shuffleQuestions(); 
     }
-    shuffleQuestions(); 
-}
+    
 
 function shuffleQuestions() {
     for (let i = questions.length - 1; i > 0; i--) {
