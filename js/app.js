@@ -46,6 +46,17 @@ function saveNicknameFromSettings() {
     }
 }
 
+// Enter 또는 Return 키를 감지하여 Save 버튼 클릭 처리
+document.getElementById('settings-nickname-input').addEventListener('keydown', function(event) {
+    if (event.key === 'Enter' || event.key === 'Return') {
+        event.preventDefault(); // 기본 Enter 키 동작 방지 (폼 제출 방지)
+        saveNicknameFromSettings(); // 닉네임 저장 함수 호출
+    }
+});
+
+// Save와 Close 버튼에 이벤트 리스너 연결
+document.getElementById("save-settings-button").addEventListener("click", saveNicknameFromSettings);
+document.getElementById("close-settings-button").addEventListener("click", closeSettings);
 
 function closeSettings() {
     document.getElementById('settings-popup').style.display = 'none';
@@ -232,6 +243,3 @@ function closeApp() {
     alert("To close the app, use your device's navigation buttons.");
 }
 
-// Event listeners
-document.getElementById("save-settings-button").addEventListener("click", saveNicknameFromSettings);
-document.getElementById("close-settings-button").addEventListener("click", closeSettings);
