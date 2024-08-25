@@ -29,10 +29,10 @@
         "image_url": "https://example.com/images/neo-realism.jpg"
     },
     {
-        "question": "What is your favorite film and why?",
-        "answer": "My favorite film is Inception because of its complex narrative and visual style.",
-        "hint": "Consider your personal tastes and what resonates with you.",
-        "category": "interview_questions",
-        "image_url": "https://example.com/images/neo-realism.jpg"
+        "question": "여기에 질문적고",
+        "answer": "여기에 정답 적고",
+        "hint": "여기에 힌트",
+        "category": "여기에 카테고리 되도록 공통된!",
+        "image_url": "여기에 구글 드라이브 같은 곳에 업로드한 사진 공유링크!(전체공개필요)"
     }
 ]
