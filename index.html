@@ -25,6 +25,14 @@
   
 <body>
     <h1>Movie Quiz og 22</h1>
+    <select id="category">
+      <option value="all">All Categories</option>
+      <option value="film_history">Film History</option>
+      <option value="film_theory">Film Theory</option>
+      <option value="interview_questions">Interview Questions</option>
+  </select>
+  <button onclick="getRandomQuestion()">Get Random Question</button>
+  
     <div id="question-container">
         <p id="question">Click the button to get a random question!</p>
         <button onclick="getRandomQuestion()">Get Random Question</button>
