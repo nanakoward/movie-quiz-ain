@@ -105,7 +105,7 @@ document.addEventListener("touchstart", function(event) {
 
 document.addEventListener("touchmove", function(event) {
     const touchEndY = event.touches[0].clientY;
-    if (touchStartY < touchEndY - 100) { // 아래로 100px 이상 스크롤했을 때
+    if (touchStartY < touchEndY - 10) { // 아래로 100px 이상 스크롤했을 때
         location.reload(); // 페이지 새로고침
     }
 });
