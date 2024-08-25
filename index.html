@@ -11,11 +11,7 @@
 </head>
 <body>
 
-
-
     <div id="quiz-container">
-          <!-- X 버튼 (앱 닫기) -->
-    <button id="close-app" onclick="closeApp()">&#10005;</button>
         <h1>Movie Quiz</h1>
 
         <label for="category">Select Category:</label>
@@ -51,23 +47,13 @@
         <div id="refresh-indicator" style="display:none;">
             <p>Refreshing...</p>
         </div>
+
+        <!-- Close App 버튼 -->
+        <button onclick="closeApp()">Close App</button>
+
     </div>
 
     <script src="js/app.js"></script>
-
-    <script>
-      // 앱 닫기 버튼 위치 조정
-      window.addEventListener('load', function() {
-          const closeButton = document.getElementById('close-app');
-          closeButton.style.left = '10px';
-          closeButton.style.top = '10px';
-      });
-
-      // "앱 닫기" 버튼 기능 구현
-      function closeApp() {
-          alert("To close the app, use your device's navigation buttons.");
-      }
-  </script>
 
 </body>
 </html>

@@ -187,28 +187,20 @@ button:hover {
     to { opacity: 1; }
 }
 
-#close-app {
+
+#refresh-indicator {
     position: fixed;
-    top: 10px;
-    left: 10px;
-    transform: translate(-50%, 0);
-    background-color: transparent;
-    border: none;
-    font-size: 24px;
-    color: #ff4c4c;
-    cursor: pointer;
+    top: 0;
+    width: 100%;
+    text-align: center;
+    background-color: #007BFF;
+    color: white;
+    padding: 10px 0;
     z-index: 1000;
-}
-
-#close-app:hover {
-    color: #ff1a1a;
+    animation: fadeIn 0.5s ease-in-out;
 }
 
 
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
 
 @media only screen and (max-width: 600px) {
     #close-app {
