@@ -47,27 +47,52 @@ function saveNicknameFromSettings() {
         closeSettings(); // 닉네임을 저장한 후 팝업을 닫습니다.
     }
 }
-
 document.addEventListener('DOMContentLoaded', () => {
-    // 초기 설정: 기본 카테고리를 'all_categories'로 설정
-    selectedCategory = 'all_categories'; 
+    // questions.json을 가장 먼저 불러옵니다.
+    fetch('questions.json')
+        .then(response => response.json())
+        .then(data => {
+            originalQuestions = [];
 
-    // 관련된 초기 작업들 실행
-    updateHighestScoreDisplay(); // 최고 점수 표시
-    resetQuestions(); // 카테고리에 맞는 질문들로 초기화
-    
-    // 최고 연속 정답 수와 전체 질문 개수를 비교하여 처리
-    const totalQuestionsInCategory = originalQuestions.filter(q => q.category.includes(selectedCategory)).length;
-    const currentAllTimeHighestStreak = allTimeHighestScores[selectedCategory] || 0;
+            // 각 질문의 category에 "All Categories"를 추가
+            data.forEach(item => {
+                if (!Array.isArray(item.category)) {
+                    // category가 문자열이면 배열로 변환하고 "All Categories" 추가
+                    item.category = [item.category, "all_categories"];
+                } else {
+                    // category가 이미 배열이면 "All Categories"를 추가
+                    if (!item.category.includes("all_categories")) {
+                        item.category.push("all_categories");
+                    }
+                }
 
-    if (currentAllTimeHighestStreak < totalQuestionsInCategory) {
-        enableAnswerInputs(); // 최고 연속 정답 수가 질문 개수보다 작을 때만 입력창과 제출 버튼 활성화
-    } else {
-        checkAllTimeHighestStreak(); // 최고 연속 정답 수가 질문 개수와 같을 때만 실행
-    }
+                originalQuestions.push(item);
+            });
 
-    getRandomQuestion(); // 질문을 하나 선택하여 표시
+            // 기본 카테고리를 'all_categories'로 설정
+            selectedCategory = 'all_categories'; 
 
+            // 관련된 초기 작업들 실행
+            updateHighestScoreDisplay(); // 최고 점수 표시
+            resetQuestions(); // 카테고리에 맞는 질문들로 초기화
+            
+            // 최고 연속 정답 수와 전체 질문 개수를 비교하여 처리
+            const totalQuestionsInCategory = originalQuestions.filter(q => q.category.includes(selectedCategory)).length;
+            const currentAllTimeHighestStreak = allTimeHighestScores[selectedCategory] || 0;
+
+            if (currentAllTimeHighestStreak < totalQuestionsInCategory) {
+                enableAnswerInputs(); // 최고 연속 정답 수가 질문 개수보다 작을 때만 입력창과 제출 버튼 활성화
+            } else {
+                checkAllTimeHighestStreak(); // 최고 연속 정답 수가 질문 개수와 같을 때만 실행
+            }
+
+            getRandomQuestion(); // 질문을 하나 선택하여 표시
+        })
+        .catch(error => {
+            console.error("Error loading questions:", error);
+        });
+
+    // 닉네임 입력 및 설정 관련 이벤트 핸들러 설정
     document.getElementById('settings-nickname-input').addEventListener('keydown', function(event) {
         if (event.key === 'Enter' || event.key === 'Return') {
             event.preventDefault(); 
@@ -79,6 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById("close-settings-button").addEventListener("click", closeSettings);
     document.getElementById("reset-button").addEventListener("click", confirmReset); // 초기화 버튼 리스너 추가
 });
+
 
 
 
@@ -126,41 +152,41 @@ function openSettings() {
     document.getElementById('settings-popup').style.display = 'block';
 }
 
-//Json
-fetch('questions.json')
-    .then(response => response.json())
-    .then(data => {
-        originalQuestions = [];
+// //Json
+// fetch('questions.json')
+//     .then(response => response.json())
+//     .then(data => {
+//         originalQuestions = [];
 
-        // 각 질문의 category에 "All Categories"를 추가
-        data.forEach(item => {
-            if (!Array.isArray(item.category)) {
-                // category가 문자열이면 배열로 변환하고 "All Categories" 추가
-                item.category = [item.category, "all_categories"];
-            } else {
-                // category가 이미 배열이면 "All Categories"를 추가
-                if (!item.category.includes("all_categories")) {
-                    item.category.push("all_categories");
-                }
-            }
+//         // 각 질문의 category에 "All Categories"를 추가
+//         data.forEach(item => {
+//             if (!Array.isArray(item.category)) {
+//                 // category가 문자열이면 배열로 변환하고 "All Categories" 추가
+//                 item.category = [item.category, "all_categories"];
+//             } else {
+//                 // category가 이미 배열이면 "All Categories"를 추가
+//                 if (!item.category.includes("all_categories")) {
+//                     item.category.push("all_categories");
+//                 }
+//             }
 
-            originalQuestions.push(item);
-        });
+//             originalQuestions.push(item);
+//         });
 
-        resetQuestions(); 
-        highestScores = getHighestScores();
-        allTimeHighestScores = getAllTimeHighestScores();
-        nickname = getNickname();
+//         resetQuestions(); 
+//         highestScores = getHighestScores();
+//         allTimeHighestScores = getAllTimeHighestScores();
+//         nickname = getNickname();
 
-        if (!nickname) {
-            document.getElementById('nickname-popup').style.display = 'block';
-        }
+//         if (!nickname) {
+//             document.getElementById('nickname-popup').style.display = 'block';
+//         }
 
-        getRandomQuestion(); 
-    })
-    .catch(error => {
-        console.error("Error loading questions:", error);
-    });
+//         getRandomQuestion(); 
+//     })
+//     .catch(error => {
+//         console.error("Error loading questions:", error);
+//     });
 
     function resetQuestions() {
         // selectedCategory에 포함된 질문들만 걸러냅니다.
