@@ -180,10 +180,36 @@ function shuffleQuestions() {
     }
 }
 
+// function getRandomQuestion() {
+//     if (questions.length === 0) {
+//     document.getElementById("question").innerText = `당신은 ${selectedCategory}의 마스터 짱짱맨 짱짱걸 당신은 미쳤어!`;
+//        return;
+//     }
+    
+//     currentQuestion = questions.pop(); 
+    
+//     document.getElementById("question").innerText = currentQuestion.question;
+//     document.getElementById("hint").style.display = 'none';
+//     document.getElementById("correct-answer").style.display = 'none';
+//     document.getElementById("answer-input").value = '';
+//     document.getElementById("feedback").innerText = '';
+
+//         const imageElement = document.getElementById("question-image");
+// if (currentQuestion.image_url) {
+//     console.log("Image URL:", currentQuestion.image_url); // URL 확인을 위해 콘솔에 출력
+//     imageElement.src = currentQuestion.image_url;
+//     imageElement.style.display = 'block';
+// } else {
+//     imageElement.style.display = 'none';
+// }
+//     document.getElementById("answer-input").focus(); 
+//     showAnswerUsed = false; 
+// }
+
 function getRandomQuestion() {
     if (questions.length === 0) {
-    document.getElementById("question").innerText = `당신은 ${selectedCategory}의 마스터 짱짱맨 짱짱걸 당신은 미쳤어!`;
-       return;
+        document.getElementById("question").innerText = `당신은 ${selectedCategory}의 마스터 짱짱맨 짱짱걸 당신은 미쳤어!`;
+        return;
     }
     
     currentQuestion = questions.pop(); 
@@ -192,19 +218,25 @@ function getRandomQuestion() {
     document.getElementById("hint").style.display = 'none';
     document.getElementById("correct-answer").style.display = 'none';
     document.getElementById("answer-input").value = '';
-    document.getElementById("feedback").innerText = '';
-
-        const imageElement = document.getElementById("question-image");
-if (currentQuestion.image_url) {
-    console.log("Image URL:", currentQuestion.image_url); // URL 확인을 위해 콘솔에 출력
-    imageElement.src = currentQuestion.image_url;
-    imageElement.style.display = 'block';
-} else {
-    imageElement.style.display = 'none';
-}
+    
+    // 피드백 초기화
+    const feedbackElement = document.getElementById("feedback");
+    feedbackElement.innerText = '';
+    feedbackElement.className = ''; // 클래스 초기화
+    
+    const imageElement = document.getElementById("question-image");
+    if (currentQuestion.image_url) {
+        console.log("Image URL:", currentQuestion.image_url); // URL 확인을 위해 콘솔에 출력
+        imageElement.src = currentQuestion.image_url;
+        imageElement.style.display = 'block';
+    } else {
+        imageElement.style.display = 'none';
+    }
+    
     document.getElementById("answer-input").focus(); 
     showAnswerUsed = false; 
 }
+
 
 // 정답을 제출하는 함수
 function checkAnswer() {
