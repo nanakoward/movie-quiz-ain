@@ -42,13 +42,15 @@ function saveNicknameFromSettings() {
     if (newNickname) {
         nickname = newNickname;
         localStorage.setItem('nickname', nickname);
-        closeSettings();
+        closeSettings(); // 닉네임을 저장한 후 팝업을 닫습니다.
     }
 }
+
 
 function closeSettings() {
     document.getElementById('settings-popup').style.display = 'none';
 }
+
 
 function openSettings() {
     document.getElementById('settings-nickname-input').value = nickname; // 현재 닉네임을 입력 필드에 표시
@@ -229,3 +231,7 @@ updateHighestScoreDisplay();
 function closeApp() {
     alert("To close the app, use your device's navigation buttons.");
 }
+
+// Event listeners
+document.getElementById("save-settings-button").addEventListener("click", saveNicknameFromSettings);
+document.getElementById("close-settings-button").addEventListener("click", closeSettings);
