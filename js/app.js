@@ -206,9 +206,8 @@ function shuffleQuestions() {
 //     showAnswerUsed = false; 
 // }
 function resetFeedback() {
-    const feedbackElement = document.getElementById("feedback");
-    feedbackElement.innerText = ''; // 피드백 메시지 초기화
-    feedbackElement.className = ''; // 클래스 초기화
+    document.getElementById("feedback").innerText = "";
+    document.getElementById("feedback").className = "";
 }
 
 function getRandomQuestion() {
