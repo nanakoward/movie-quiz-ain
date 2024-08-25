@@ -214,3 +214,9 @@ button:hover {
     color: #666666; /* 비활성화된 상태의 텍스트 색상 */
     cursor: not-allowed; /* 비활성화된 상태의 커서 모양 */
 }
+
+.disabled-input {
+    background-color: #f0f0f0; /* 비활성화된 입력창 색상 */
+    color: #666666; /* 비활성화된 텍스트 색상 */
+    cursor: not-allowed; /* 비활성화된 커서 */
+}

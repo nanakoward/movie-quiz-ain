@@ -149,6 +149,13 @@ function checkAnswer() {
         saveHighestScores(highestScores);
         updateHighestScoreDisplay(); 
 
+        // All-Time Highest Streak가 질문 개수와 동일해진 경우 처리
+        if (allTimeHighestScores[selectedCategory] === originalQuestions.filter(q => q.category === selectedCategory).length) {
+            displayMasterMessage();
+            disableAnswerInputs();
+            return;
+        }
+
         if (questions.length === 0) {
             // 모든 질문을 맞춘 경우 마스터 메시지 출력 및 버튼 비활성화
             document.getElementById("question").innerText = `당신은 ${selectedCategory}의 마스터 짱짱맨 짱짱걸 당신은 미쳤어!`;
@@ -184,6 +191,10 @@ function checkAnswer() {
     answerInput.focus(); 
 }
 
+// Master 메시지를 표시하는 함수
+function displayMasterMessage() {
+    document.getElementById("question").innerText = `당신은 ${selectedCategory}의 마스터 짱짱맨 짱짱걸 당신은 미쳤어!`;
+}
 
 // 버튼 비활성화 및 스타일 변경 함수
 function disableAnswerButton() {
@@ -192,7 +203,17 @@ function disableAnswerButton() {
     answerButton.classList.add("disabled-button"); // 비활성화 스타일 추가
 }
 
+// 답변 입력창 및 버튼을 비활성화하는 함수
+function disableAnswerInputs() {
+    const answerButton = document.getElementById("submit-answer-button"); // checkAnswer()가 연결된 버튼
+    const answerInput = document.getElementById("answer-input"); // 답변 입력창
 
+    answerButton.disabled = true; // 버튼 비활성화
+    answerButton.classList.add("disabled-button"); // 비활성화 스타일 추가
+
+    answerInput.disabled = true; // 입력창 비활성화
+    answerInput.classList.add("disabled-input"); // 비활성화 스타일 추가
+}
 
 
 function getRandomQuestion() {
