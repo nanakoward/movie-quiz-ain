@@ -5,7 +5,7 @@ let highestScores = {}; // 카테고리별 현재 최고 점수 저장 객체
 let allTimeHighestScores = {}; // 카테고리별 가장 높았던 최고 점수 저장 객체
 let currentStreak = 0; // 현재 연속 정답 수
 let showAnswerUsed = false; // Show Answer 버튼 사용 여부
-let selectedCategory = 'all_categories'; // 기본 선택 카테고리
+let selectedCategory = "all_categories"; // 기본 선택 카테고리
 let nickname = ''; // 사용자 닉네임
 let showAnswerClicked = false; // Show Answer 버튼 클릭 여부
 
