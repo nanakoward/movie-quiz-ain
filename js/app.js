@@ -240,16 +240,87 @@ function getRandomQuestion() {
 }
 
 
+// // 정답을 제출하는 함수
+// function checkAnswer() {
+//     const answerInput = document.getElementById("answer-input");
+//     const userAnswer = answerInput.value.trim().toLowerCase();
+//     const correctAnswer = currentQuestion.answer.toLowerCase();
+
+//     document.getElementById("show-answer-btn").style.display = 'none';
+//     document.getElementById("correct-answer").style.display = 'none';
+
+//     if (userAnswer === correctAnswer) {
+//         // 카테고리별로 currentStreak 관리
+//         if (!currentStreak[selectedCategory]) {
+//             currentStreak[selectedCategory] = 0;
+//         }
+
+//         currentStreak[selectedCategory]++;
+//         document.getElementById("feedback").innerText = `${nickname}, 정답!`;
+//         document.getElementById("feedback").className = "correct";
+ 
+
+//         highestScores[selectedCategory] = currentStreak[selectedCategory];
+// // highestScores와 allTimeHighestScores 업데이트
+// if (currentStreak[selectedCategory] > (allTimeHighestScores[selectedCategory] || 0)) {
+//     allTimeHighestScores[selectedCategory] = currentStreak[selectedCategory];
+//     saveAllTimeHighestScores(allTimeHighestScores); // 업데이트된 allTimeHighestScores 저장
+// }
+
+// saveHighestScores(highestScores); // 업데이트된 highestScores 저장
+// updateHighestScoreDisplay();
+
+// checkAllTimeHighestStreak(); // 정답 제출 후 checkAllTimeHighestStreak 실행
+
+// // 모든 질문에 대해 정답을 맞춘 경우 입력창을 비활성화
+// if (allTimeHighestScores[selectedCategory] >= originalQuestions.filter(q => q.category.includes(selectedCategory)).length) {
+//     disableAnswerInputs(); // 질문 개수와 동일하거나 큰 경우 비활성화
+//                    // 피드백 초기화를 가장 먼저 호출하여 즉시 반영
+//                    resetFeedback();
+//                    triggerFireworks();
+//                    playRandomSound();
+//     return;
+// }
+
+// // 정답 피드백 후 새로운 질문으로 이동
+// setTimeout(() => {
+//     document.getElementById("feedback").innerText = "";
+//     document.getElementById("feedback").className = "";
+//     getRandomQuestion();
+// }, 1000);
+// } else {
+// //오답 처리
+
+// document.getElementById("feedback").innerText = `${nickname}, 까비..`;
+// document.getElementById("feedback").className = "incorrect";
+
+// resetStreak(); // 연속 정답 수 초기화
+// resetQuestions();
+// updateHighestScoreDisplay();
+
+// setTimeout(() => {
+//     document.getElementById("feedback").innerText = "";
+//     document.getElementById("feedback").className = "";
+//     getRandomQuestion();
+// }, 1000);
+// }
+
+// answerInput.value = ''; // 입력창 초기화
+// answerInput.focus(); // 입력창에 포커스
+// }
+       
 // 정답을 제출하는 함수
 function checkAnswer() {
     const answerInput = document.getElementById("answer-input");
     const userAnswer = answerInput.value.trim().toLowerCase();
-    const correctAnswer = currentQuestion.answer.toLowerCase();
 
     document.getElementById("show-answer-btn").style.display = 'none';
     document.getElementById("correct-answer").style.display = 'none';
 
-    if (userAnswer === correctAnswer) {
+    // correctAnswer는 배열이므로, 사용자가 입력한 답이 배열 중 하나와 일치하는지 확인
+    const isCorrect = currentQuestion.answer.some(correct => userAnswer === correct.toLowerCase());
+
+    if (isCorrect) {
         // 카테고리별로 currentStreak 관리
         if (!currentStreak[selectedCategory]) {
             currentStreak[selectedCategory] = 0;
@@ -258,57 +329,52 @@ function checkAnswer() {
         currentStreak[selectedCategory]++;
         document.getElementById("feedback").innerText = `${nickname}, 정답!`;
         document.getElementById("feedback").className = "correct";
- 
 
         highestScores[selectedCategory] = currentStreak[selectedCategory];
-// highestScores와 allTimeHighestScores 업데이트
-if (currentStreak[selectedCategory] > (allTimeHighestScores[selectedCategory] || 0)) {
-    allTimeHighestScores[selectedCategory] = currentStreak[selectedCategory];
-    saveAllTimeHighestScores(allTimeHighestScores); // 업데이트된 allTimeHighestScores 저장
+        if (currentStreak[selectedCategory] > (allTimeHighestScores[selectedCategory] || 0)) {
+            allTimeHighestScores[selectedCategory] = currentStreak[selectedCategory];
+            saveAllTimeHighestScores(allTimeHighestScores); // 업데이트된 allTimeHighestScores 저장
+        }
+
+        saveHighestScores(highestScores); // 업데이트된 highestScores 저장
+        updateHighestScoreDisplay();
+
+        checkAllTimeHighestStreak(); // 정답 제출 후 checkAllTimeHighestStreak 실행
+
+        if (allTimeHighestScores[selectedCategory] >= originalQuestions.filter(q => q.category.includes(selectedCategory)).length) {
+            disableAnswerInputs(); // 질문 개수와 동일하거나 큰 경우 비활성화
+            resetFeedback();
+            triggerFireworks();
+            playRandomSound();
+            return;
+        }
+
+        setTimeout(() => {
+            document.getElementById("feedback").innerText = "";
+            document.getElementById("feedback").className = "";
+            getRandomQuestion();
+        }, 1000);
+    } else {
+        // 오답 처리
+        document.getElementById("feedback").innerText = `${nickname}, 까비..`;
+        document.getElementById("feedback").className = "incorrect";
+
+        resetStreak(); // 연속 정답 수 초기화
+        resetQuestions();
+        updateHighestScoreDisplay();
+
+        setTimeout(() => {
+            document.getElementById("feedback").innerText = "";
+            document.getElementById("feedback").className = "";
+            getRandomQuestion();
+        }, 1000);
+    }
+
+    answerInput.value = ''; // 입력창 초기화
+    answerInput.focus(); // 입력창에 포커스
 }
 
-saveHighestScores(highestScores); // 업데이트된 highestScores 저장
-updateHighestScoreDisplay();
 
-checkAllTimeHighestStreak(); // 정답 제출 후 checkAllTimeHighestStreak 실행
-
-// 모든 질문에 대해 정답을 맞춘 경우 입력창을 비활성화
-if (allTimeHighestScores[selectedCategory] >= originalQuestions.filter(q => q.category.includes(selectedCategory)).length) {
-    disableAnswerInputs(); // 질문 개수와 동일하거나 큰 경우 비활성화
-                   // 피드백 초기화를 가장 먼저 호출하여 즉시 반영
-                   resetFeedback();
-                   triggerFireworks();
-                   playRandomSound();
-    return;
-}
-
-// 정답 피드백 후 새로운 질문으로 이동
-setTimeout(() => {
-    document.getElementById("feedback").innerText = "";
-    document.getElementById("feedback").className = "";
-    getRandomQuestion();
-}, 1000);
-} else {
-//오답 처리
-
-document.getElementById("feedback").innerText = `${nickname}, 까비..`;
-document.getElementById("feedback").className = "incorrect";
-
-resetStreak(); // 연속 정답 수 초기화
-resetQuestions();
-updateHighestScoreDisplay();
-
-setTimeout(() => {
-    document.getElementById("feedback").innerText = "";
-    document.getElementById("feedback").className = "";
-    getRandomQuestion();
-}, 1000);
-}
-
-answerInput.value = ''; // 입력창 초기화
-answerInput.focus(); // 입력창에 포커스
-}
-       
 
 // 불꽃놀이 효과와 진동을 동시에 트리거하는 함수
 function triggerFireworks() {
